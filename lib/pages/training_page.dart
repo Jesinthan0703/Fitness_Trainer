@@ -7,6 +7,9 @@ import '../data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:expansion_card/expansion_card.dart';
+import 'package:provider/provider.dart';
+import '../provider/database_model.dart';
+import '../provider/booking_model.dart';
 import './call_page.dart';
 
 class TrainingPage extends StatefulWidget {
@@ -20,6 +23,9 @@ class _TrainingPageState extends State<TrainingPage>
   PageController _pageController;
   int activePage;
   ClientRole _role = ClientRole.Broadcaster;
+  var _isInit = true;
+  var _isLoading = false;
+  List dataList;
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
@@ -34,107 +40,63 @@ class _TrainingPageState extends State<TrainingPage>
   }
 
   @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Booking>(context, listen: false)
+          .loadLiveClass()
+          .then((value) => dataList =
+              Provider.of<Booking>(context, listen: false).getLiveClass)
+          .then((value) {
+        setState(
+          () {
+            _isLoading = false;
+          },
+        );
+        print("dataList " + dataList[0].toString());
+      });
+    }
+
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          MyAppbar("Choose your Way", "Trainings", false),
-          SliverToBoxAdapter(
-            child: buildPageIndicator(),
-          ),
-          // Divider(),
-          SliverFillRemaining(
-            child: PageView(
-              children: [
-                page_1(),
-                page_2(),
-                page_3(),
-              ],
-              controller: _pageController,
-              onPageChanged: (index) {
-                if (index != activePage) {
-                  setState(() {
-                    activePage = index;
-                  });
-                }
-              },
-            ),
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
           )
-        ],
-      ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: GestureDetector(
-      //   // Set onVerticalDrag event to drag handlers of controller for swipe effect
-      //   onVerticalDragUpdate: _bottomNavBarController.onDrag,
-      //   onVerticalDragEnd: _bottomNavBarController.onDragEnd,
-      //   child: FloatingActionButton.extended(
-      //     label: Text("Sessions"),
-      //     elevation: 2,
-      //     backgroundColor: Colors.deepOrange,
-      //     foregroundColor: Colors.white,
-
-      //     //Set onPressed event to swap state of bottom bar
-      //     onPressed: () => _bottomNavBarController.swap(),
-      //   ),
-      // ),
-
-      // // Actual expandable bottom bar
-      // bottomNavigationBar: BottomExpandableAppBar(
-      //   bottomAppBarColor: Colors.blue,
-      //   expandedHeight: 550,
-      //   expandedDecoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.circular(20),
-      //     border: Border.all(color: Colors.blue, width: 6),
-      //   ),
-      //   horizontalMargin: 16,
-      //   controller: _bottomNavBarController,
-      //   shape: AutomaticNotchedShape(
-      //       RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),
-      //   //expandedBackColor: Theme.of(context).backgroundColor,
-      //   expandedBody: Center(
-      //     child: Text("Sessions"),
-      //   ),
-      //   bottomAppBarBody: Container(
-      //     padding: const EdgeInsets.all(8.0),
-      //     child: Row(
-      //       mainAxisSize: MainAxisSize.max,
-      //       children: <Widget>[
-      //         Expanded(
-      //           child: InkWell(
-      //             onTap: () =>
-      //                 Navigator.of(context).pushNamed(TrainingPage.routeName),
-      //             child: Text(
-      //               "Trainings",
-      //               textAlign: TextAlign.center,
-      //               style: TextStyle(
-      //                 color: Colors.white,
-      //                 fontWeight: FontWeight.bold,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //         Spacer(
-      //           flex: 2,
-      //         ),
-      //         Expanded(
-      //           child: InkWell(
-      //             onTap: () => null,
-      //             child: Text(
-      //               "Settings",
-      //               textAlign: TextAlign.center,
-      //               style: TextStyle(
-      //                 color: Colors.white,
-      //                 fontWeight: FontWeight.bold,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-    );
+        : Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                MyAppbar("Choose your Way", "Trainings", false),
+                SliverToBoxAdapter(
+                  child: buildPageIndicator(),
+                ),
+                // Divider(),
+                SliverFillRemaining(
+                  child: PageView(
+                    children: [
+                      page_1(),
+                      page_2(),
+                      page_3(),
+                    ],
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      if (index != activePage) {
+                        setState(() {
+                          activePage = index;
+                        });
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
   }
 
   Widget buildPageIndicator() {
@@ -279,6 +241,7 @@ class _TrainingPageState extends State<TrainingPage>
         arguments: {
           'category': data.category,
           'workouts': data.workouts,
+          'image': data.image,
         },
       ),
       child: Card(
@@ -308,7 +271,7 @@ class _TrainingPageState extends State<TrainingPage>
                   fit: StackFit.expand,
                   children: [
                     Image.asset(
-                      "assets/images/Strength.jpg",
+                      data.image,
                       fit: BoxFit.fill,
                     ),
                     DecoratedBox(
@@ -338,23 +301,25 @@ class _TrainingPageState extends State<TrainingPage>
 
   Widget page_3() {
     return ListView(
-      children: Classs(),
+      children: classs(),
     );
   }
 
-  List<Widget> Classs() {
-    List<Widget> ClassList = [];
+  List<Widget> classs() {
+    List<Widget> classList = [];
 
-    for (int i = 0; i < liveClassData.length; i++) {
-      ClassList.add(buildClass(liveClassData[i]));
+    for (int i = 0; i < dataList.length; i++) {
+      classList.add(buildClass(dataList[i]));
     }
-    return ClassList;
+    return classList;
   }
 
   Widget buildWorkout(final data) {
+    final trainers =
+        Provider.of<DataBase>(context, listen: false).getTrainersData;
     return InkWell(
       onTap: () => Navigator.of(context)
-          .pushNamed(TrainerPage.routeName, arguments: data.trainers),
+          .pushNamed(TrainerPage.routeName, arguments: trainers),
       child: Card(
         margin: const EdgeInsets.all(10),
         child: Container(
@@ -389,6 +354,7 @@ class _TrainingPageState extends State<TrainingPage>
   }
 
   Widget buildClass(final data) {
+    print("buildClass" + data.toString());
     return Container(
       margin: const EdgeInsets.all(10),
       child: ExpansionCard(
@@ -419,7 +385,7 @@ class _TrainingPageState extends State<TrainingPage>
                 ),
               ),
               Text(
-                data.instructor,
+                data.name,
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ],
@@ -439,40 +405,46 @@ class _TrainingPageState extends State<TrainingPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Icon(Icons.access_time),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "${data.date}, ${data.time}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                      Container(
+                        width: 250,
+                        child: Row(
+                          children: [
+                            Icon(Icons.access_time),
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                        ],
+                            Text(
+                              "${data.date}, ${data.time}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          Icon(Icons.account_circle),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            "${data.participants} Attendees",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                      Container(
+                        width: 250,
+                        child: Row(
+                          children: [
+                            Icon(Icons.account_circle),
+                            SizedBox(
+                              width: 30,
                             ),
-                          ),
-                        ],
+                            Text(
+                              "${data.participants} Attendees",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import './database_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -24,10 +25,11 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> _authenticate(
+  Future<Map> _authenticate(
       String email, String password, String urlSegment) async {
     final url =
         "https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDLk3hE5lJWmcqSelGKihKHF3K65pvmyZY";
+    print('auth');
     final response = await http.post(
       url,
       body: json.encode({
@@ -49,15 +51,15 @@ class Auth with ChangeNotifier {
         ),
       ),
     );
-    print(_expiryDate);
     notifyListeners();
+    return responseData;
   }
 
-  Future<void> signUp(String email, String password) {
+  Future<Map> signUp(String email, String password) {
     return _authenticate(email, password, "signUp");
   }
 
-  Future<void> signIn(String email, String password) {
+  Future<Map> signIn(String email, String password) {
     return _authenticate(email, password, "signInWithPassword");
   }
 

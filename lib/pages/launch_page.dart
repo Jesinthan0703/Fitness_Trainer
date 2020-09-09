@@ -82,7 +82,7 @@ class _LaunchPageState extends State<LaunchPage> {
                   title: Strings.stepThreeTitle,
                   content: Strings.stepThreeContent),
               makePage(
-                  image: 'assets/images/launch-4.jpg',
+                  image: 'assets/images/launch-4.png',
                   title: Strings.stepThreeTitle,
                   content: Strings.stepThreeContent),
               //buildLastPage(),
@@ -130,6 +130,12 @@ class _LaunchPageState extends State<LaunchPage> {
                 fontSize: 20,
                 fontWeight: FontWeight.w400),
           ),
+          if (currentIndex == 3)
+            RaisedButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(WelcomePage.routeName),
+              child: Text("Get Started !!!"),
+            ),
           reverse
               ? Column(
                   children: <Widget>[

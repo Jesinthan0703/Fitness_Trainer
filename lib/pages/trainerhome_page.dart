@@ -1,7 +1,11 @@
+import 'package:agora_flutter_quickstart/provider/booking_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/database_model.dart';
 import '../widgets/appBar_widget.dart';
 import '../data.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class TrainerHome extends StatefulWidget {
   static const routeName = '/trainerHome';
@@ -11,97 +15,248 @@ class TrainerHome extends StatefulWidget {
 }
 
 class _TrainerHomeState extends State<TrainerHome> {
-  DateTime selectedDate = DateTime.now();
-  String _date = "Not set";
-  String _time = "Not set";
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
+  String dateTime;
+  String title;
+  var _isInit = true;
+  var _isLoading = false;
+  List appoinments;
+  List liveClasses;
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
       setState(() {
-        selectedDate = picked;
+        _isLoading = true;
       });
+      Provider.of<Booking>(context, listen: false)
+          .getMyAppoinments()
+          .then((value) => appoinments =
+              Provider.of<Booking>(context, listen: false).getAppoinments)
+          .then(
+            (_) => Provider.of<Booking>(context, listen: false)
+                .loadLiveClass()
+                .then((value) {
+              liveClasses =
+                  Provider.of<Booking>(context, listen: false).getLiveClass;
+              setState(() {
+                _isLoading = false;
+              });
+            }),
+          );
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  void liveClass(final title, final trainerName) {
+    _formKey.currentState.save();
+    List<String> dateTimeSplit = dateTime.split(" ");
+    Provider.of<Booking>(context, listen: false)
+        .startLiveClass(dateTimeSplit[0], dateTimeSplit[1], trainerName, title)
+        .then((_) => Navigator.of(context).pop());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      //backgroundColor: const Color(0xff000000),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          MyAppbar("Hello, Rock", "Home", false),
-          SliverFillRemaining(
-            child: buildPage(),
+    final trainer = Provider.of<DataBase>(context, listen: false).getTrainer;
+    print("data" + appoinments.toString());
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
           )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: SingleChildScrollView(
-                child: Container(
-                  height: 300,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Class Title",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter the Class Title',
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        buildDateTimePicker(),
-                        SizedBox(
-                          height: 50.0,
-                        ),
-                        SizedBox(
-                          width: 320.0,
-                          child: RaisedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Post",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: const Color(0xFF1BC0C5),
-                          ),
-                        )
-                      ],
-                    ),
+        : Scaffold(
+            extendBody: true,
+            //backgroundColor: const Color(0xff000000),
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: CustomScrollView(
+              slivers: [
+                MyAppbar("Hello, ${trainer.name}", "Home", false),
+                SliverFillRemaining(
+                  child: buildPage(),
+                )
+              ],
+            ),
+            bottomSheet: SolidBottomSheet(
+              elevation: 4,
+              toggleVisibilityOnTap: true,
+              headerBar: Container(
+                height: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.arrow_drop_up),
+                    Text("My Classes"),
+                    Icon(Icons.arrow_drop_up),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xff00e0ff),
+                      const Color(0xff095e79),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
               ),
-            );
-          },
-        ),
-        label: Text("Live Class"),
-        icon: Icon(Icons.live_tv),
-      ),
-    );
+              body: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: ValueKey(index),
+                    background: Container(
+                      color: Theme.of(context).errorColor,
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 4,
+                      ),
+                    ),
+                    direction: DismissDirection.endToStart,
+                    confirmDismiss: (direction) {
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text('Are you sure?'),
+                          content: Text(
+                            'Do you want to cancel the appoinment',
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('No'),
+                              onPressed: () {
+                                Navigator.of(ctx).pop(false);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Yes'),
+                              onPressed: () {
+                                Navigator.of(ctx).pop(true);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    onDismissed: (direction) {},
+                    child: Card(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 4,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: ListTile(
+                          leading: Icon(Icons.alarm_on),
+                          title: Text(
+                            liveClasses[index].date,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            liveClasses[index].time,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          trailing: Text(
+                            liveClasses[index].title,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: liveClasses.length,
+              ),
+            ),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          height: 300,
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Class Title",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter the Class Title',
+                                  ),
+                                  onSaved: (value) => title = value,
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                buildDateTimePicker(),
+                                SizedBox(
+                                  height: 50.0,
+                                ),
+                                SizedBox(
+                                  width: 320.0,
+                                  child: RaisedButton(
+                                    onPressed: () =>
+                                        liveClass(title, trainer.name),
+                                    child: Text(
+                                      "Post",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    color: const Color(0xFF1BC0C5),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              label: Text("Live Class"),
+              icon: Icon(Icons.live_tv),
+            ),
+          );
   }
 
   Widget buildPage() {
@@ -133,7 +288,7 @@ class _TrainerHomeState extends State<TrainerHome> {
                 ),
                 Divider(),
                 Text(
-                  appoinments[index].addresss,
+                  appoinments[index].address,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -190,7 +345,7 @@ class _TrainerHomeState extends State<TrainerHome> {
         print(val);
         return null;
       },
-      onSaved: (val) => print(val),
+      onSaved: (val) => dateTime = val.toString(),
     );
   }
 }

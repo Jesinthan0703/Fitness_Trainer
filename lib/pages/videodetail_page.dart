@@ -1,3 +1,5 @@
+import 'package:agora_flutter_quickstart/pages/workout_page.dart';
+import 'package:agora_flutter_quickstart/pages/workoutdetail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shape_of_view/shape_of_view.dart';
 
@@ -28,7 +30,7 @@ class VideoDetail extends StatelessWidget {
                     height: 50,
                   ),
                   child: Image.asset(
-                    "assets/images/agility.jpg",
+                    data['image'],
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -138,50 +140,50 @@ class VideoDetail extends StatelessWidget {
           height: 10,
         ),
         itemBuilder: (context, index) {
-          return Card(
-            elevation: 5,
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              //width: 100,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        // data["workouts"][index].image,
-                        'assets/images/Muscle.png',
-                        fit: BoxFit.fill,
+          return InkWell(
+            onTap: () => Navigator.of(context)
+                .pushNamed(WorkOutPage.routeName, arguments: index),
+            child: Card(
+              elevation: 5,
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                //width: 100,
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      width: 100,
+                      height: 100,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          data["workouts"][index].image,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 144,
-                    child: Text(
-                      data["workouts"][index].name,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      width: 144,
+                      child: Text(
+                        data["workouts"][index].name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.play_circle_outline),
-                    onPressed: () {},
-                  )
-                ],
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Icon(Icons.play_circle_outline),
+                  ],
+                ),
               ),
             ),
           );

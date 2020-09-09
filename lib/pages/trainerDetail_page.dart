@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sliverbar_with_card/sliverbar_with_card.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:provider/provider.dart';
+import '../provider/booking_model.dart';
 
 class TrainerDetail extends StatefulWidget {
   final trainer;
@@ -13,6 +15,17 @@ class TrainerDetail extends StatefulWidget {
 class _TrainerDetailState extends State<TrainerDetail> {
   bool favorito = false;
   bool expandText = false;
+  String dateTime;
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  void _book(final trainerId, final name) {
+    print("book");
+    _formKey.currentState.save();
+    List<String> dateTimeSplit = dateTime.split(" ");
+    Provider.of<Booking>(context, listen: false)
+        .book(dateTimeSplit[0], dateTimeSplit[1], "temporary", trainerId, name)
+        .then((_) => Navigator.of(context).pop());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +121,7 @@ class _TrainerDetailState extends State<TrainerDetail> {
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(left: 30),
-                child: Text(widget.trainer.experience,
+                child: Text(widget.trainer.experience.toString(),
                     style:
                         TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
               ),
@@ -146,27 +159,31 @@ class _TrainerDetailState extends State<TrainerDetail> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        child: Container(
-                          height: 200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buildDateTimePicker(),
-                                SizedBox(
-                                  width: 320.0,
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Book",
-                                      style: TextStyle(color: Colors.white),
+                        child: Form(
+                          key: _formKey,
+                          child: Container(
+                            height: 200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  buildDateTimePicker(),
+                                  SizedBox(
+                                    width: 320.0,
+                                    child: RaisedButton(
+                                      onPressed: () => _book(widget.trainer.id,
+                                          widget.trainer.name),
+                                      child: Text(
+                                        "Book",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      color: const Color(0xFF1BC0C5),
                                     ),
-                                    color: const Color(0xFF1BC0C5),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

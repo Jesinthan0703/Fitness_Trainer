@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-// import 'package:provider/provider.dart';
-// import '../provider/auth_model.dart';
+import 'package:provider/provider.dart';
+import '../provider/database_model.dart';
 
 class ProfilePage extends StatelessWidget {
   static const routeName = '/profile';
   @override
   Widget build(BuildContext context) {
     // final auth = Provider.of<Auth>(context);
+    final user = Provider.of<DataBase>(context, listen: false).getUser;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -27,7 +28,7 @@ class ProfilePage extends StatelessWidget {
                   Icons.account_circle,
                   size: 50,
                 ),
-                Text("Ajay"),
+                Text(user.name),
               ],
             ),
           ),

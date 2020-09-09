@@ -38,12 +38,14 @@ class Workout {
   final String name;
   final String videos;
   final String reps;
+  final String image;
   final int sets;
   final String muscleGroupTargeted;
 
   const Workout({
     @required this.name,
     @required this.videos,
+    @required this.image,
     @required this.reps,
     @required this.sets,
     @required this.muscleGroupTargeted,
@@ -52,11 +54,13 @@ class Workout {
 
 class Videos {
   final String category;
+  final String image;
   final List<Workout> workouts;
 
   const Videos({
     @required this.category,
     @required this.workouts,
+    @required this.image,
   });
 }
 
@@ -477,94 +481,110 @@ const List<Trainer> aerialYogaTrainerData = const [
 ];
 
 const List<Videos> offlineVideosData = const [
-  Videos(category: "Mobility", workouts: [
-    Workout(
-      name: "Single Leg Glute Bridge",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "Glutes and Lower back",
-    ),
-    Workout(
-      name: "Butterfly Stretch",
-      videos: "assest/videos/",
-      reps: "10",
-      sets: 1,
-      muscleGroupTargeted: "Groin, Adductor and Hip flexor",
-    ),
-    Workout(
-      name: "Leg Extension",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "Hamstring and Calf",
-    ),
-    Workout(
-      name: "Scorpion",
-      videos: "assest/videos/",
-      reps: "5 each side",
-      sets: 1,
-      muscleGroupTargeted:
-          "Core, Hips, Legs, Lower Body, Upper Legs and Waist.",
-    ),
-    Workout(
-      name: "90/90",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "IT Band, Hip Flexor and Waist",
-    ),
-    Workout(
-      name: "Lion Stretch",
-      videos: "assest/videos/",
-      reps: "10",
-      sets: 1,
-      muscleGroupTargeted: "T-span, Scapula and Lat",
-    ),
-    Workout(
-      name: "YTWL",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted:
-          "T-span, Scapula, Lat, Teres minor, Teres major and Trapezius",
-    ),
-    Workout(
-      name: "Adductor Rocks",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "Adductor and Groin",
-    ),
-    Workout(
-      name: "Hip Flexor Rocks",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "Hip Flexor and Quadricep",
-    ),
-    Workout(
-      name: "World's Greatest",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted:
-          "Groin, Adductor, Hip flexor, T-span, Scapula and Mid-back",
-    ),
-    Workout(
-      name: "Ankle Pumps",
-      videos: "assest/videos/",
-      reps: "10 each side",
-      sets: 1,
-      muscleGroupTargeted: "Calf, Shin, Achilles and Soleus",
-    ),
-  ]),
-  Videos(category: "Cardio", workouts: [
+  Videos(
+    category: "Mobility",
+    image: "assets/images/Strength.jpg",
+    workouts: [
+      Workout(
+        name: "Single Leg Glute Bridge",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Glutes and Lower back",
+      ),
+      Workout(
+        name: "Butterfly Stretch",
+        videos: "assest/videos/",
+        reps: "10",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Groin, Adductor and Hip flexor",
+      ),
+      Workout(
+        name: "Leg Extension",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Hamstring and Calf",
+      ),
+      Workout(
+        name: "Scorpion",
+        videos: "assest/videos/",
+        reps: "5 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted:
+            "Core, Hips, Legs, Lower Body, Upper Legs and Waist.",
+      ),
+      Workout(
+        name: "90/90",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "IT Band, Hip Flexor and Waist",
+      ),
+      Workout(
+        name: "Lion Stretch",
+        videos: "assest/videos/",
+        reps: "10",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "T-span, Scapula and Lat",
+      ),
+      Workout(
+        name: "YTWL",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted:
+            "T-span, Scapula, Lat, Teres minor, Teres major and Trapezius",
+      ),
+      Workout(
+        name: "Adductor Rocks",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Adductor and Groin",
+      ),
+      Workout(
+        name: "Hip Flexor Rocks",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Hip Flexor and Quadricep",
+      ),
+      Workout(
+        name: "World's Greatest",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted:
+            "Groin, Adductor, Hip flexor, T-span, Scapula and Mid-back",
+      ),
+      Workout(
+        name: "Ankle Pumps",
+        videos: "assest/videos/",
+        reps: "10 each side",
+        sets: 1,
+        image: "assets/images/Strength.jpg",
+        muscleGroupTargeted: "Calf, Shin, Achilles and Soleus",
+      ),
+    ],
+  ),
+  Videos(image: "assets/images/Strength.jpg", category: "Cardio", workouts: [
     Workout(
       name: "Mountain Climbers",
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Glutes, Legs, Triceps and Shoulders",
     ),
     Workout(
@@ -572,6 +592,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Chest, Triceps, Abs and Shoulders",
     ),
     Workout(
@@ -579,6 +600,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Quads, Hamstrings, Glutes and Calves",
     ),
     Workout(
@@ -586,6 +608,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Rectus Abdominus, Hips and Obliques",
     ),
     Workout(
@@ -593,6 +616,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Glutes, Quads, Hamstrings, Calves and Core",
     ),
     Workout(
@@ -600,15 +624,17 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 15 sec off",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Quadriceps, Hamstrings, Glute and Calf",
     ),
   ]),
-  Videos(category: "Core", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Core", workouts: [
     Workout(
       name: "Sit-up",
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper Abs",
     ),
     Workout(
@@ -616,6 +642,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Lower Abs",
     ),
     Workout(
@@ -623,6 +650,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper and Lower Abs",
     ),
     Workout(
@@ -630,6 +658,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Lower Abs",
     ),
     Workout(
@@ -637,6 +666,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper and Lower Abs",
     ),
     Workout(
@@ -644,6 +674,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper Abs",
     ),
     Workout(
@@ -651,187 +682,223 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper and lower Abs",
     ),
   ]),
-  Videos(category: "Strength & Conditioning", workouts: [
-    Workout(
-      name: "Shoulder Press",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted:
-          "Deltoids (posterior, medial, and anterior shoulder),Triceps, Traps and Upper Chest",
-    ),
-    Workout(
-      name: "Jumping Lunges",
-      videos: "assest/videos/",
-      reps: "12-15 each side",
-      sets: 3,
-      muscleGroupTargeted: "Quads, Glutes, Hamstrings and Calves",
-    ),
-    Workout(
-      name: "Lateral Raise",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Middle Deltoid and Traps",
-    ),
-    Workout(
-      name: "Single Leg RDL",
-      videos: "assest/videos/",
-      reps: "12-15 each side",
-      sets: 3,
-      muscleGroupTargeted: "Glutes, Hamstrings, Lats and Spinal Erectors",
-    ),
-    Workout(
-      name: "Reverse Fly",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Rhomboids",
-    ),
-    Workout(
-      name: "Lateral Step-up",
-      videos: "assest/videos/",
-      reps: "12-15 each side",
-      sets: 3,
-      muscleGroupTargeted:
-          "Quads, Hamstrings, Glutes and also improves balance and agility ",
-    ),
-    Workout(
-      name: "Bicep Curl and Hammer Curl",
-      videos: "assest/videos/",
-      reps: "12-15 each side",
-      sets: 3,
-      muscleGroupTargeted: "Biceps Brachii, Brachialis and Brachioradialis",
-    ),
-    Workout(
-      name: "Calf Raise",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Gastrocnemius, Tibialis Posterior and Soleus ",
-    ),
-    Workout(
-      name: "Dead Bug",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted:
-          "Erector Ppinae, Obliques, Rectus Abdominis, Transverse Abdominis ",
-    ),
-  ]),
-  Videos(category: "Upper Body", workouts: [
-    Workout(
-      name: "Bent Over Rows",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Rear Delt, Infraspinatus and Teres Minor",
-    ),
-    Workout(
-      name: "Arnold Press",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Deltoids",
-    ),
-    Workout(
-      name: "Bench Press",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Pectoralis Major, Anterior Deltoids and Triceps",
-    ),
-    Workout(
-      name: "Pull Over",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Pectoralis Major and Latissimus Dorsi",
-    ),
-    Workout(
-      name: "Reverse Fly",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Posterior Deltoids, Rhomboids and Trapezius",
-    ),
-    Workout(
-      name: "Bicep Curl",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Biceps Brachii",
-    ),
-    Workout(
-      name: "Tricep Extension",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Triceps, Shoulders, Chest, Lats and Forearms",
-    ),
-    Workout(
-      name: "Chest Fly",
-      videos: "assest/videos/",
-      reps: "12-15",
-      sets: 3,
-      muscleGroupTargeted: "Pectoralis Major ",
-    ),
-  ]),
-  Videos(category: "Lower Body", workouts: [
-    Workout(
-      name: " Barbell Back Squat",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted:
-          "Quadriceps, Gluteals, Hamstrings and Spinal Erectors",
-    ),
-    Workout(
-      name: "Romanian Deadlift",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted: "Hamstrings, Glutes and Forearm Flexors",
-    ),
-    Workout(
-      name: "Bulgarian Split Squat",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted: "Quads, Hamstrings, Glutes, Calves, Core and Arms",
-    ),
-    Workout(
-      name: "Glute Ham Raise",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted:
-          "Glutes, Hamstrings, Gluteus Maximus, Gluteus Medius and Gluteus Minimus",
-    ),
-    Workout(
-      name: "Standing Single Leg Calf Raise",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted: "Gastrocnemius",
-    ),
-    Workout(
-      name: "Seated Calf Raise",
-      videos: "assest/videos/",
-      reps: "8-12",
-      sets: 4,
-      muscleGroupTargeted: "Medial and Lateral Soleus",
-    ),
-  ]),
-  Videos(category: "Chest", workouts: [
+  Videos(
+      image: "assets/images/Strength.jpg",
+      category: "Strength & Conditioning",
+      workouts: [
+        Workout(
+          name: "Shoulder Press",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Deltoids (posterior, medial, and anterior shoulder),Triceps, Traps and Upper Chest",
+        ),
+        Workout(
+          name: "Jumping Lunges",
+          videos: "assest/videos/",
+          reps: "12-15 each side",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Quads, Glutes, Hamstrings and Calves",
+        ),
+        Workout(
+          name: "Lateral Raise",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Middle Deltoid and Traps",
+        ),
+        Workout(
+          name: "Single Leg RDL",
+          videos: "assest/videos/",
+          reps: "12-15 each side",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Glutes, Hamstrings, Lats and Spinal Erectors",
+        ),
+        Workout(
+          name: "Reverse Fly",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Rhomboids",
+        ),
+        Workout(
+          name: "Lateral Step-up",
+          videos: "assest/videos/",
+          reps: "12-15 each side",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Quads, Hamstrings, Glutes and also improves balance and agility ",
+        ),
+        Workout(
+          name: "Bicep Curl and Hammer Curl",
+          videos: "assest/videos/",
+          reps: "12-15 each side",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Biceps Brachii, Brachialis and Brachioradialis",
+        ),
+        Workout(
+          name: "Calf Raise",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Gastrocnemius, Tibialis Posterior and Soleus ",
+        ),
+        Workout(
+          name: "Dead Bug",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Erector Ppinae, Obliques, Rectus Abdominis, Transverse Abdominis ",
+        ),
+      ]),
+  Videos(
+      image: "assets/images/Strength.jpg",
+      category: "Upper Body",
+      workouts: [
+        Workout(
+          name: "Bent Over Rows",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Rear Delt, Infraspinatus and Teres Minor",
+        ),
+        Workout(
+          name: "Arnold Press",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Deltoids",
+        ),
+        Workout(
+          name: "Bench Press",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Pectoralis Major, Anterior Deltoids and Triceps",
+        ),
+        Workout(
+          name: "Pull Over",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Pectoralis Major and Latissimus Dorsi",
+        ),
+        Workout(
+          name: "Reverse Fly",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Posterior Deltoids, Rhomboids and Trapezius",
+        ),
+        Workout(
+          name: "Bicep Curl",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Biceps Brachii",
+        ),
+        Workout(
+          name: "Tricep Extension",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Triceps, Shoulders, Chest, Lats and Forearms",
+        ),
+        Workout(
+          name: "Chest Fly",
+          videos: "assest/videos/",
+          reps: "12-15",
+          sets: 3,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Pectoralis Major ",
+        ),
+      ]),
+  Videos(
+      image: "assets/images/Strength.jpg",
+      category: "Lower Body",
+      workouts: [
+        Workout(
+          name: " Barbell Back Squat",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Quadriceps, Gluteals, Hamstrings and Spinal Erectors",
+        ),
+        Workout(
+          name: "Romanian Deadlift",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Hamstrings, Glutes and Forearm Flexors",
+        ),
+        Workout(
+          name: "Bulgarian Split Squat",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Quads, Hamstrings, Glutes, Calves, Core and Arms",
+        ),
+        Workout(
+          name: "Glute Ham Raise",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted:
+              "Glutes, Hamstrings, Gluteus Maximus, Gluteus Medius and Gluteus Minimus",
+        ),
+        Workout(
+          name: "Standing Single Leg Calf Raise",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Gastrocnemius",
+        ),
+        Workout(
+          name: "Seated Calf Raise",
+          videos: "assest/videos/",
+          reps: "8-12",
+          sets: 4,
+          image: "assets/images/Strength.jpg",
+          muscleGroupTargeted: "Medial and Lateral Soleus",
+        ),
+      ]),
+  Videos(image: "assets/images/Strength.jpg", category: "Chest", workouts: [
     Workout(
       name: "Bench press",
       videos: "assest/videos/",
       reps: "12-15",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Pectoralis Major, Anterior Deltoids and Triceps",
     ),
     Workout(
@@ -839,6 +906,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Pectoralis Major Muscle, Upper Pectoral Muscles",
     ),
     Workout(
@@ -846,6 +914,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Pectoralis Major",
     ),
     Workout(
@@ -853,6 +922,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Upper Pectorals and Triceps",
     ),
     Workout(
@@ -860,16 +930,18 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 4,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Pectorals, Deltoids, Triceps, Abdominal, Serratus Anterior.",
     ),
   ]),
-  Videos(category: "Arms", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Arms", workouts: [
     Workout(
       name: "Over Head Press",
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Pectorals, Deltoids, Triceps, Trapezius",
     ),
     Workout(
@@ -877,6 +949,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Biceps, Teres Major, Posterior Deltoid, Transverse Abdominis",
     ),
@@ -885,6 +958,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Deltoids, Trapezius, Rhomboids and  Biceps",
     ),
     Workout(
@@ -892,6 +966,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Biceps Brachii",
     ),
     Workout(
@@ -899,6 +974,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Deltoid, Upper Trap, Supraspinatus and Serratus Anterior",
     ),
@@ -907,15 +983,17 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Triceps",
     ),
   ]),
-  Videos(category: "Back", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Back", workouts: [
     Workout(
       name: "Pull Up",
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Biceps, Teres Major, Posterior Deltoid, Transverse Abdominis",
     ),
@@ -924,6 +1002,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Latissimus Dorsi",
     ),
     Workout(
@@ -931,6 +1010,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Trapezius, Rhomboids and Latissimus Dorsi",
     ),
     Workout(
@@ -938,6 +1018,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Deltoids",
     ),
     Workout(
@@ -945,6 +1026,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Latissimus Dorsi, Shoulders, Bicep",
     ),
     Workout(
@@ -952,15 +1034,17 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "12-15",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Lat, Rhomboids, Bicep, Traps",
     ),
   ]),
-  Videos(category: "Speed", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Speed", workouts: [
     Workout(
       name: "High Knee",
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Hip Flexor",
     ),
     Workout(
@@ -968,6 +1052,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Hamstring and Calf",
     ),
     Workout(
@@ -975,6 +1060,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Shoulder, Groin and Adductor",
     ),
     Workout(
@@ -982,6 +1068,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Quads and Hamstring",
     ),
     Workout(
@@ -989,6 +1076,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Side Abs and IT Band",
     ),
     Workout(
@@ -996,6 +1084,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Quads and Hamstring",
     ),
     Workout(
@@ -1003,6 +1092,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, IT Band, Adductor and Groin",
     ),
     Workout(
@@ -1010,6 +1100,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 sec on 30 sec off",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Quads and Hamstring",
     ),
     Workout(
@@ -1017,6 +1108,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "30 meters",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Calf, Quads, Hamstring and Glutes ",
     ),
     Workout(
@@ -1024,35 +1116,39 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "10",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Full Lower Body",
     ),
   ]),
-  Videos(category: "Endurance", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Endurance", workouts: [
     Workout(
       name: "200m Run and 100m Jog",
       videos: "assest/videos/",
       reps: "10",
       sets: 2,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Increase Lung Capacity and Stamina, Leg and Shoulder Muscles",
     ),
   ]),
-  Videos(category: "Agility", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Agility", workouts: [
     Workout(
       name: "Shuttle Run 10m-20m-30m-40m",
       videos: "assest/videos/",
       reps: "10",
       sets: 2,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Abs, Calves, Glutes, Hip Flexors, Hamstrings, Lower Back and Quadriceps",
     ),
   ]),
-  Videos(category: "Yoga", workouts: [
+  Videos(image: "assets/images/Strength.jpg", category: "Yoga", workouts: [
     Workout(
       name: "Child's Pose",
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Stretches your Lower Back, Hips, Thighs, Knees and Ankles and Relaxes your Spine, Shoulders and Neck",
     ),
@@ -1061,6 +1157,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Strengthens the Arms, Shoulders and Back while stretching the Hamstrings, Calves and Arches of your Feet",
     ),
@@ -1069,6 +1166,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Helps build strength in the Core, Shoulders, Arms and Legs",
     ),
@@ -1077,6 +1175,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Abs, Glute, Shoulders, Tricep and Forearm",
     ),
     Workout(
@@ -1084,6 +1183,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Strengthen the Back Muscles, Increase Spinal Flexibility and Stretches the Chest, Shoulders and Abdomen",
     ),
@@ -1092,6 +1192,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Improve your balance, It can also strengthen your Core, Ankles, Calves, Thighs and Spine",
     ),
@@ -1100,6 +1201,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Build strength in the legs and stretches the Hips, Spine, Chest, Shoulders, Groins, Hamstrings and Calves",
     ),
@@ -1108,6 +1210,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Increase the flexibility in your back, while stretching the Shoulders, Hips and Chest",
     ),
@@ -1116,6 +1219,7 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted:
           "Stretches the muscles of the Chest, Back, Neck and also builds strength in the Back and Hamstring Muscles",
     ),
@@ -1124,28 +1228,68 @@ const List<Videos> offlineVideosData = const [
       videos: "assest/videos/",
       reps: "1 min",
       sets: 3,
+      image: "assets/images/Strength.jpg",
       muscleGroupTargeted: "Allows for a Moment of Relaxation",
     ),
   ]),
 ];
 
-const List<LiveClass> liveClassData = const [
-  LiveClass(
-    title: "Wide Grip Push Up",
-    image: "assets/images/Strength.jpg",
-    instructor: "Dwayne Johnson",
-    time: "4:00 PM",
-    date: "Today",
-    channelName: "live-1",
-    participants: 34,
+const List<Workout> workoutList = [
+  Workout(
+    name: "Single Leg Glute Bridge",
+    videos: "assest/videos/",
+    image: "assets/images/Pilates.jpg",
+    reps: "10 each side",
+    sets: 1,
+    muscleGroupTargeted: "Glutes and Lower back",
   ),
-];
-
-const List<Appoinment> appoinments = const [
-  Appoinment(
-    user: "Ajay",
-    addresss: "37 Dhoni Street, Boat Club Chennai - 06",
-    date: "Today",
-    time: "6:00 PM",
-  )
+  Workout(
+    name: "Butterfly Stretch",
+    videos: "assest/videos/",
+    image: "assets/images/endurance.jpg",
+    reps: "10",
+    sets: 1,
+    muscleGroupTargeted: "Groin, Adductor and Hip flexor",
+  ),
+  Workout(
+    name: "Leg Extension",
+    videos: "assest/videos/",
+    image: "assets/images/Muscle.png",
+    reps: "10 each side",
+    sets: 1,
+    muscleGroupTargeted: "Hamstring and Calf",
+  ),
+  Workout(
+    name: "Scorpion",
+    videos: "assest/videos/",
+    reps: "5 each side",
+    image: "assets/images/rehab.jpg",
+    sets: 1,
+    muscleGroupTargeted: "Core, Hips, Legs, Lower Body, Upper Legs and Waist.",
+  ),
+  Workout(
+    name: "90/90",
+    videos: "assest/videos/",
+    reps: "10 each side",
+    image: "assets/images/speed.jpg",
+    sets: 1,
+    muscleGroupTargeted: "IT Band, Hip Flexor and Waist",
+  ),
+  Workout(
+    name: "Lion Stretch",
+    videos: "assest/videos/",
+    image: "assets/images/Strength.jpg",
+    reps: "10",
+    sets: 1,
+    muscleGroupTargeted: "T-span, Scapula and Lat",
+  ),
+  Workout(
+    name: "YTWL",
+    videos: "assest/videos/",
+    reps: "10 each side",
+    image: "assets/images/agility.jpg",
+    sets: 1,
+    muscleGroupTargeted:
+        "T-span, Scapula, Lat, Teres minor, Teres major and Trapezius",
+  ),
 ];

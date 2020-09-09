@@ -1,7 +1,8 @@
 import 'package:agora_flutter_quickstart/pages/trainerDetail_page.dart';
-
-import '../data.dart';
+import 'package:agora_flutter_quickstart/provider/booking_model.dart';
+import '../provider/database_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:snapclip_pageview/snapclip_pageview.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -14,9 +15,21 @@ class TrainerPage extends StatefulWidget {
 
 class _TrainerPageState extends State<TrainerPage> {
   List<Trainer> data;
+  TextEditingController _dateTimeController;
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  String dateTime;
   @override
   void initState() {
     super.initState();
+  }
+
+  void _book(final trainerId, final name) {
+    print("book");
+    _formKey.currentState.save();
+    List<String> dateTimeSplit = dateTime.split(" ");
+    Provider.of<Booking>(context, listen: false)
+        .book(dateTimeSplit[0], dateTimeSplit[1], "temporary", trainerId, name)
+        .then((_) => Navigator.of(context).pop());
   }
 
   @override
@@ -48,6 +61,7 @@ class _TrainerPageState extends State<TrainerPage> {
 
   PageViewItem buildChild(_, int index) {
     final trainer = data[index];
+    final user = Provider.of<DataBase>(context, listen: false).getUser;
     return PageViewItem(
       alignment: Alignment.bottomCenter,
       key: Key(index.toString()),
@@ -110,27 +124,31 @@ class _TrainerPageState extends State<TrainerPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildDateTimePicker(),
-                            SizedBox(
-                              width: 320.0,
-                              child: RaisedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Book",
-                                  style: TextStyle(color: Colors.white),
+                    child: Form(
+                      key: _formKey,
+                      child: Container(
+                        height: 200,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildDateTimePicker(),
+                              SizedBox(
+                                width: 320.0,
+                                child: RaisedButton(
+                                  onPressed: () =>
+                                      _book(trainer.trainerId, user.name),
+                                  child: Text(
+                                    "Book",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: const Color(0xFF1BC0C5),
                                 ),
-                                color: const Color(0xFF1BC0C5),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -184,6 +202,7 @@ class _TrainerPageState extends State<TrainerPage> {
       icon: Icon(Icons.event),
       dateLabelText: 'Date',
       timeLabelText: "Hour",
+      controller: _dateTimeController,
       selectableDayPredicate: (date) {
         // Disable weekend days to select from the calendar
         if (date.weekday == 7) {
@@ -192,12 +211,12 @@ class _TrainerPageState extends State<TrainerPage> {
 
         return true;
       },
-      onChanged: (val) => print(val),
+      onChanged: (val) => print("change" + val),
       validator: (val) {
-        print(val);
+        print("vali" + val);
         return null;
       },
-      onSaved: (val) => print(val),
+      onSaved: (val) => dateTime = val.toString(),
     );
   }
 }

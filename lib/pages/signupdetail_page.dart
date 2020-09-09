@@ -1,18 +1,95 @@
-import 'package:agora_flutter_quickstart/pages/home_page.dart';
-import 'package:agora_flutter_quickstart/pages/trainerhome_page.dart';
+import '../provider/database_model.dart';
+import 'package:agora_flutter_quickstart/pages/login_page.dart';
+import 'package:provider/provider.dart';
+import '../provider/auth_model.dart';
 import 'package:flutter/material.dart';
 import '../animation/FadeAnimation.dart';
+import 'package:location/location.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:flutter/services.dart';
 
 class SignUpDetail extends StatefulWidget {
   final int mode;
+  final Map<String, String> _authData;
 
-  SignUpDetail(this.mode);
+  SignUpDetail(this.mode, this._authData);
   @override
   _SignUpDetailState createState() => _SignUpDetailState();
 }
 
 class _SignUpDetailState extends State<SignUpDetail> {
   int _selectedRadioButton = 0;
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  var _isLoading = false;
+
+  void _submit() {
+    if (!_formKey.currentState.validate()) {
+      // Invalid!
+      return;
+    }
+    _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    getUserLocation();
+    if (widget.mode == 0) {
+      widget._authData["Gender"] =
+          _selectedRadioButton == 0 ? "male" : "female";
+      Provider.of<Auth>(context, listen: false)
+          .signUp(widget._authData["email"], widget._authData["password"])
+          .then((value) {
+        Provider.of<DataBase>(context, listen: false)
+            .registerUserData(
+                value['idToken'], value['localId'], widget._authData)
+            .then((value) =>
+                Navigator.of(context).pushNamed(LoginPage.routeName));
+      });
+    } else {
+      Provider.of<Auth>(context, listen: false)
+          .signUp(widget._authData["email"], widget._authData["password"])
+          .then((value) {
+        Provider.of<DataBase>(context, listen: false)
+            .registerTrainerData(
+                value['idToken'], value['localId'], widget._authData)
+            .then((value) =>
+                Navigator.of(context).pushNamed(LoginPage.routeName));
+      });
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  getUserLocation() async {
+    //call this async method from whereever you need
+
+    LocationData myLocation;
+    String error;
+    Location location = new Location();
+    try {
+      myLocation = await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        error = 'please grant permission';
+        print(error);
+      }
+      if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        error = 'permission denied- please enable it from app settings';
+        print(error);
+      }
+      myLocation = null;
+    }
+    final coordinates =
+        new Coordinates(myLocation.latitude, myLocation.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print(
+        ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
+    widget._authData['Address'] = first.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +110,11 @@ class _SignUpDetailState extends State<SignUpDetail> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: widget.mode == 0 ? userDetails() : trainerDetails(),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: widget.mode == 0 ? userDetails() : trainerDetails(),
+        ),
       ),
     );
   }
@@ -69,6 +149,7 @@ class _SignUpDetailState extends State<SignUpDetail> {
             children: <Widget>[
               FadeAnimation(1.2, makeInput(label: "Name")),
               FadeAnimation(1.3, makeInput(label: "Age")),
+              FadeAnimation(1.3, makeInput(label: "Gender")),
               FadeAnimation(1.4, makeInput(label: "Description")),
               FadeAnimation(1.5, makeInput(label: "Speciality")),
               FadeAnimation(1.6, makeInput(label: "Number")),
@@ -89,9 +170,7 @@ class _SignUpDetailState extends State<SignUpDetail> {
               child: MaterialButton(
                 minWidth: double.infinity,
                 height: 60,
-                onPressed: () {
-                  Navigator.of(context).pushNamed(TrainerHome.routeName);
-                },
+                onPressed: _submit,
                 color: Colors.greenAccent,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -126,12 +205,15 @@ class _SignUpDetailState extends State<SignUpDetail> {
               SizedBox(
                 height: 20,
               ),
+              FadeAnimation(1.2, makeInput(label: "Name")),
+              FadeAnimation(1.2, makeInput(label: "Number")),
               FadeAnimation(
-                  1.2,
-                  Text(
-                    "Choose Your Preferences",
-                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
-                  )),
+                1.2,
+                Text(
+                  "Choose Your Preferences",
+                  style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                ),
+              ),
             ],
           ),
           Column(
@@ -155,9 +237,7 @@ class _SignUpDetailState extends State<SignUpDetail> {
               child: MaterialButton(
                 minWidth: double.infinity,
                 height: 60,
-                onPressed: () {
-                  Navigator.of(context).pushNamed(HomePage.routeName);
-                },
+                onPressed: _submit,
                 color: Colors.greenAccent,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -186,7 +266,7 @@ class _SignUpDetailState extends State<SignUpDetail> {
         SizedBox(
           height: 5,
         ),
-        TextField(
+        TextFormField(
           obscureText: obscureText,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -195,6 +275,15 @@ class _SignUpDetailState extends State<SignUpDetail> {
             border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey[400])),
           ),
+          onSaved: (value) {
+            widget._authData[label] = value;
+          },
+          validator: (value) {
+            if (value.isEmpty) {
+              return '$label is empty!';
+            }
+            return null;
+          },
         ),
         SizedBox(
           height: 30,

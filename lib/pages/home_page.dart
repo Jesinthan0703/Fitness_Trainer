@@ -1,9 +1,14 @@
+import 'package:agora_flutter_quickstart/pages/workout_page.dart';
+import 'package:agora_flutter_quickstart/provider/booking_model.dart';
+
 import '../data.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import '../widgets/appBar_widget.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/database_model.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -16,7 +21,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   PageController _pageController;
-
+  var _isInit = true;
+  var _isLoading = false;
+  var appoinments;
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
@@ -34,6 +41,28 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Booking>(context, listen: false)
+          .loadMyAppoinments()
+          .then((value) => appoinments =
+              Provider.of<Booking>(context, listen: false).getAppoinments)
+          .then(
+            (value) => setState(
+              () {
+                _isLoading = false;
+              },
+            ),
+          );
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -41,58 +70,132 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      extendBody: true,
-      body: CustomScrollView(
-        slivers: [
-          MyAppbar("Hello, Ajay", "Home", true),
-          SliverFillRemaining(
-            child: buildPage(),
+    final user = Provider.of<DataBase>(context, listen: false).getUser;
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
           )
-        ],
-      ),
-      // drawer: Drawer(),
-      bottomSheet: SolidBottomSheet(
-        elevation: 4,
-        toggleVisibilityOnTap: true,
-        headerBar: Container(
-          height: 20,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.arrow_drop_up),
-              Text("Sessions"),
-              Icon(Icons.arrow_drop_up),
-            ],
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xff00e0ff),
-                const Color(0xff095e79),
+        : Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            extendBody: true,
+            body: CustomScrollView(
+              slivers: [
+                MyAppbar("Hello, ${user.name}", "Home", true),
+                SliverFillRemaining(
+                  child: buildPage(),
+                )
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
             ),
-          ),
-        ),
-        body: Container(
-          color: Colors.white,
-          height: 30,
-          child: Center(
-            child: Text(
-              "No Sessions are available",
+            // drawer: Drawer(),
+            bottomSheet: SolidBottomSheet(
+              elevation: 4,
+              toggleVisibilityOnTap: true,
+              headerBar: Container(
+                height: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.arrow_drop_up),
+                    Text("Sessions"),
+                    Icon(Icons.arrow_drop_up),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xff00e0ff),
+                      const Color(0xff095e79),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+              ),
+              body: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: ValueKey(index),
+                    background: Container(
+                      color: Theme.of(context).errorColor,
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 4,
+                      ),
+                    ),
+                    direction: DismissDirection.endToStart,
+                    confirmDismiss: (direction) {
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text('Are you sure?'),
+                          content: Text(
+                            'Do you want to cancel the appoinment',
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('No'),
+                              onPressed: () {
+                                Navigator.of(ctx).pop(false);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Yes'),
+                              onPressed: () {
+                                Navigator.of(ctx).pop(true);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    onDismissed: (direction) {},
+                    child: Card(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 4,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: ListTile(
+                          leading: Icon(Icons.alarm_on),
+                          title: Text(
+                            appoinments[index].date,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            appoinments[index].time,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          // trailing: Text(),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: appoinments.length,
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 
   Widget buildPage() {
@@ -259,51 +362,56 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
               width: 10,
             ),
             itemBuilder: (context, index) {
-              return Card(
-                elevation: 5,
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        width: 100,
-                        height: 100,
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            strengthTrainerData[index].image,
-                            fit: BoxFit.fill,
+              return InkWell(
+                onTap: () => Navigator.of(context)
+                    .pushNamed(WorkOutPage.routeName, arguments: index),
+                child: Card(
+                  elevation: 5,
+                  child: Container(
+                    margin: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: 100,
+                          height: 100,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              workoutList[index].image,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Core Burn Out",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(
+                          width: 10,
                         ),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.play_circle_outline),
-                        onPressed: () {},
-                      )
-                    ],
+                        Container(
+                          width: 144,
+                          child: Text(
+                            workoutList[index].name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Icon(Icons.play_circle_outline),
+                      ],
+                    ),
                   ),
                 ),
               );
             },
             scrollDirection: Axis.vertical,
-            itemCount: strengthTrainerData.length,
+            itemCount: workoutList.length,
             shrinkWrap: true,
           ),
         ),

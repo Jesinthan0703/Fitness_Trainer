@@ -47,6 +47,10 @@ class _AuthCardState extends State<AuthCard> {
       // Invalid!
       return;
     }
+    if (!_formKey.currentState.validate()) {
+      // Invalid!
+      return;
+    }
     _formKey.currentState.save();
     setState(() {
       _isLoading = true;
