@@ -1,5 +1,4 @@
-import 'package:agora_flutter_quickstart/pages/workout_page.dart';
-import 'package:agora_flutter_quickstart/pages/workoutdetail_page.dart';
+import 'package:agora_flutter_quickstart/widgets/videoplayer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shape_of_view/shape_of_view.dart';
 
@@ -68,11 +67,14 @@ class VideoDetail extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "From Dennis",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  data['category'],
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               Text(
@@ -83,16 +85,6 @@ class VideoDetail extends StatelessWidget {
                                     color: Colors.red),
                               ),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 15),
-                          child: Text(
-                            data['category'],
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ),
                         Padding(
@@ -131,8 +123,8 @@ class VideoDetail extends StatelessWidget {
 
   Widget buildPrograms(final data) {
     return Container(
-      height: 400,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      height: 440,
+      margin: const EdgeInsets.only(left: 10, right: 10),
       //padding: const EdgeInsets.only(bottom: 10),
       // color: Colors.blue,
       child: ListView.separated(
@@ -141,8 +133,17 @@ class VideoDetail extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () => Navigator.of(context)
-                .pushNamed(WorkOutPage.routeName, arguments: index),
+            onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: VideoPlayerApp(data["workouts"][index].videos),
+                );
+              },
+            ),
             child: Card(
               elevation: 5,
               child: Container(
@@ -190,7 +191,7 @@ class VideoDetail extends StatelessWidget {
         },
         scrollDirection: Axis.vertical,
         itemCount: data['workouts'].length,
-        shrinkWrap: true,
+        //shrinkWrap: true,
       ),
     );
   }

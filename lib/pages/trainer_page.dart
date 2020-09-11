@@ -17,6 +17,7 @@ class _TrainerPageState extends State<TrainerPage> {
   List<Trainer> data;
   TextEditingController _dateTimeController;
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   String dateTime;
   @override
   void initState() {
@@ -29,23 +30,34 @@ class _TrainerPageState extends State<TrainerPage> {
     List<String> dateTimeSplit = dateTime.split(" ");
     Provider.of<Booking>(context, listen: false)
         .book(dateTimeSplit[0], dateTimeSplit[1], "temporary", trainerId, name)
-        .then((_) => Navigator.of(context).pop());
+        .then((_) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Booked"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      Navigator.of(context).pop();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments as List;
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Color(0x00000000),
         elevation: 0,
       ),
-      body: SnapClipPageView(
-        backgroundBuilder: buildBackground,
-        itemBuilder: buildChild,
-        length: data.length,
-        initialIndex: 0,
+      body: Builder(
+        builder: (context) => SnapClipPageView(
+          backgroundBuilder: buildBackground,
+          itemBuilder: buildChild,
+          length: data.length,
+          initialIndex: 0,
+        ),
       ),
     );
   }
@@ -91,18 +103,15 @@ class _TrainerPageState extends State<TrainerPage> {
                 height: 200,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child: Hero(
-                    tag: trainer.name,
-                    child: Image.asset(
-                      trainer.image,
-                      fit: BoxFit.fill,
-                    ),
+                  child: Image.asset(
+                    trainer.image,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 13,
             ),
             Text(
               "Age: ${trainer.age}",

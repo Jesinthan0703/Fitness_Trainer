@@ -34,9 +34,9 @@ class _LoginPageState extends State<LoginPage> {
           .then((val) {
         print(val);
         if (val == 1) {
-          Navigator.of(context).pushNamed(HomePage.routeName);
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
         } else if (val == 2) {
-          Navigator.of(context).pushNamed(TrainerHome.routeName);
+          Navigator.of(context).pushReplacementNamed(TrainerHome.routeName);
         }
       });
     });
@@ -51,16 +51,6 @@ class _LoginPageState extends State<LoginPage> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
       ),
       body: Form(
         key: _formKey,
@@ -236,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                           InkWell(
                             onTap: () {
                               Navigator.of(context)
-                                  .pushNamed(SignUpPage.routeName);
+                                  .pushReplacementNamed(SignUpPage.routeName);
                             },
                             child: Text(
                               "Sign up",

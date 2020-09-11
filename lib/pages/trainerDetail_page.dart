@@ -17,6 +17,7 @@ class _TrainerDetailState extends State<TrainerDetail> {
   bool expandText = false;
   String dateTime;
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _book(final trainerId, final name) {
     print("book");
@@ -24,179 +25,191 @@ class _TrainerDetailState extends State<TrainerDetail> {
     List<String> dateTimeSplit = dateTime.split(" ");
     Provider.of<Booking>(context, listen: false)
         .book(dateTimeSplit[0], dateTimeSplit[1], "temporary", trainerId, name)
-        .then((_) => Navigator.of(context).pop());
+        .then((_) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Booked"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      Navigator.of(context).pop();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: CardSliverAppBar(
-        height: 320,
-        background: Image.asset(widget.trainer.image, fit: BoxFit.cover),
-        title: Text(widget.trainer.name,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold)),
-        titleDescription: Text(
-          "Speciality: ${widget.trainer.speciality}",
-          style: TextStyle(color: Colors.black, fontSize: 18),
-          overflow: TextOverflow.clip,
-        ),
-        card: AssetImage(widget.trainer.image),
-        backButton: true,
-        backButtonColors: [Colors.white, Colors.black],
-        body: Container(
-          alignment: Alignment.topLeft,
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                height: expandText ? 145 : 65,
-                margin: EdgeInsets.only(left: 30, right: 30, top: 50),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      expandText = !expandText;
-                    });
-                  },
-                  child: Text(
-                    widget.trainer.description,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Material(
+        child: CardSliverAppBar(
+          height: 320,
+          background: Image.asset(widget.trainer.image, fit: BoxFit.cover),
+          title: Text(widget.trainer.name,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+          titleDescription: Text(
+            "Speciality: ${widget.trainer.speciality}",
+            style: TextStyle(color: Colors.black, fontSize: 18),
+            overflow: TextOverflow.clip,
+          ),
+          card: AssetImage(widget.trainer.image),
+          backButton: true,
+          backButtonColors: [Colors.white, Colors.black],
+          body: Container(
+            alignment: Alignment.topLeft,
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: expandText ? 145 : 65,
+                  margin: EdgeInsets.only(left: 30, right: 30, top: 50),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        expandText = !expandText;
+                      });
+                    },
+                    child: Text(
+                      widget.trainer.description,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text("Age",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text(widget.trainer.age.toString(),
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
-              ),
-              Divider(),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text("Rating",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 240),
-                child: ratingBar(widget.trainer.rating),
-              ),
-              Divider(),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text("Experience",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text(widget.trainer.experience.toString(),
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
-              ),
-              Divider(),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text("Contact Number",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 30),
-                child: Text(widget.trainer.number,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 100),
-                alignment: Alignment.bottomCenter,
-                child: RaisedButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Form(
-                          key: _formKey,
-                          child: Container(
-                            height: 200,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  buildDateTimePicker(),
-                                  SizedBox(
-                                    width: 320.0,
-                                    child: RaisedButton(
-                                      onPressed: () => _book(widget.trainer.id,
-                                          widget.trainer.name),
-                                      child: Text(
-                                        "Book",
-                                        style: TextStyle(color: Colors.white),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text("Age",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text(widget.trainer.age.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 16)),
+                ),
+                Divider(),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text("Rating",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 240),
+                  child: ratingBar(widget.trainer.rating),
+                ),
+                Divider(),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text("Experience",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text(widget.trainer.experience.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 16)),
+                ),
+                Divider(),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text("Contact Number",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text(widget.trainer.number,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 16)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 100),
+                  alignment: Alignment.bottomCenter,
+                  child: RaisedButton(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 20),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Container(
+                              height: 200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    buildDateTimePicker(),
+                                    SizedBox(
+                                      width: 320.0,
+                                      child: RaisedButton(
+                                        onPressed: () => _book(
+                                            widget.trainer.id,
+                                            widget.trainer.name),
+                                        child: Text(
+                                          "Book",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        color: const Color(0xFF1BC0C5),
                                       ),
-                                      color: const Color(0xFF1BC0C5),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
+                    child: Text("Book"),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(10),
+                    // ),
                   ),
-                  child: Text("Book"),
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(10),
-                  // ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
-import '../utils/ColorsSys.dart';
+import 'package:shape_of_view/shape/roundrect.dart';
+
 import '../utils/Strings.dart';
-//import './home_page.dart';
 import './welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class _LaunchPageState extends State<LaunchPage> {
                   padding: EdgeInsets.only(right: 20, top: 20),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
@@ -48,7 +48,7 @@ class _LaunchPageState extends State<LaunchPage> {
                     child: Text(
                       'Skip',
                       style: TextStyle(
-                          color: ColorSys.gray,
+                          color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.w400),
                     ),
@@ -69,12 +69,12 @@ class _LaunchPageState extends State<LaunchPage> {
             controller: _pageController,
             children: <Widget>[
               makePage(
-                  image: 'assets/images/launch-1.png',
+                  image: 'assets/images/launch-4.png',
                   title: Strings.stepOneTitle,
                   content: Strings.stepOneContent),
               makePage(
                   reverse: true,
-                  image: 'assets/images/launch-2.jpg',
+                  image: 'assets/images/launch-1.png',
                   title: Strings.stepTwoTitle,
                   content: Strings.stepTwoContent),
               makePage(
@@ -82,9 +82,9 @@ class _LaunchPageState extends State<LaunchPage> {
                   title: Strings.stepThreeTitle,
                   content: Strings.stepThreeContent),
               makePage(
-                  image: 'assets/images/launch-4.png',
+                  image: 'assets/images/launch-2.jpg',
                   title: Strings.stepThreeTitle,
-                  content: Strings.stepThreeContent),
+                  content: ""),
               //buildLastPage(),
             ],
           ),
@@ -125,16 +125,20 @@ class _LaunchPageState extends State<LaunchPage> {
           Text(
             content,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: ColorSys.gray,
-                fontSize: 20,
-                fontWeight: FontWeight.w400),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           if (currentIndex == 3)
             RaisedButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(WelcomePage.routeName),
-              child: Text("Get Started !!!"),
+              onPressed: () => Navigator.of(context)
+                  .pushReplacementNamed(WelcomePage.routeName),
+              child: Text(
+                "Get Started !!!",
+                style: Theme.of(context).textTheme.button,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: Colors.tealAccent[400],
             ),
           reverse
               ? Column(
@@ -225,7 +229,7 @@ class _LaunchPageState extends State<LaunchPage> {
       width: isActive ? 30 : 6,
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
-          color: ColorSys.secoundry, borderRadius: BorderRadius.circular(5)),
+          color: Colors.orange, borderRadius: BorderRadius.circular(5)),
     );
   }
 

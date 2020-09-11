@@ -26,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
     _formKey.currentState.save();
     print(_authData);
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) =>
@@ -43,16 +43,6 @@ class _SignUpPageState extends State<SignUpPage> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
       ),
       body: Form(
         key: _formKey,
@@ -252,7 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Text("Already have an account?"),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>

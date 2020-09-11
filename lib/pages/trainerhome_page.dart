@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/database_model.dart';
 import '../widgets/appBar_widget.dart';
-import '../data.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
@@ -22,6 +21,7 @@ class _TrainerHomeState extends State<TrainerHome> {
   List appoinments;
   List liveClasses;
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -34,7 +34,7 @@ class _TrainerHomeState extends State<TrainerHome> {
               Provider.of<Booking>(context, listen: false).getAppoinments)
           .then(
             (_) => Provider.of<Booking>(context, listen: false)
-                .loadLiveClass()
+                .loadLiveClassTrainer()
                 .then((value) {
               liveClasses =
                   Provider.of<Booking>(context, listen: false).getLiveClass;
@@ -48,12 +48,20 @@ class _TrainerHomeState extends State<TrainerHome> {
     super.didChangeDependencies();
   }
 
-  void liveClass(final title, final trainerName) {
+  void liveClass(final trainerName) {
     _formKey.currentState.save();
     List<String> dateTimeSplit = dateTime.split(" ");
     Provider.of<Booking>(context, listen: false)
         .startLiveClass(dateTimeSplit[0], dateTimeSplit[1], trainerName, title)
-        .then((_) => Navigator.of(context).pop());
+        .then((_) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Class Scheduled"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -62,15 +70,18 @@ class _TrainerHomeState extends State<TrainerHome> {
     print("data" + appoinments.toString());
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              backgroundColor: Theme.of(context).backgroundColor,
+            ),
           )
         : Scaffold(
             extendBody: true,
+            key: _scaffoldKey,
             //backgroundColor: const Color(0xff000000),
             backgroundColor: Theme.of(context).backgroundColor,
             body: CustomScrollView(
               slivers: [
-                MyAppbar("Hello, ${trainer.name}", "Home", false),
+                MyAppbar("Hello, ${trainer.name}", "Home", false, trainer),
                 SliverFillRemaining(
                   child: buildPage(),
                 )
@@ -105,91 +116,98 @@ class _TrainerHomeState extends State<TrainerHome> {
                   ),
                 ),
               ),
-              body: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    key: ValueKey(index),
-                    background: Container(
-                      color: Theme.of(context).errorColor,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.only(right: 20),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 4,
+              body: appoinments.length != 0
+                  ? ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          key: ValueKey(index),
+                          background: Container(
+                            color: Theme.of(context).errorColor,
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 20),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 4,
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          confirmDismiss: (direction) {
+                            return showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: Text('Are you sure?'),
+                                content: Text(
+                                  'Do you want to cancel the appoinment',
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text('No'),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop(false);
+                                    },
+                                  ),
+                                  FlatButton(
+                                    child: Text('Yes'),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop(true);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          onDismissed: (direction) {},
+                          child: Card(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 4,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: ListTile(
+                                leading: Icon(Icons.alarm_on),
+                                title: Text(
+                                  liveClasses[index].date,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  liveClasses[index].time,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                trailing: Text(
+                                  liveClasses[index].title,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: liveClasses.length,
+                    )
+                  : Center(
+                      child: Text(
+                        "No Live Classes are scheduled",
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
-                    direction: DismissDirection.endToStart,
-                    confirmDismiss: (direction) {
-                      return showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text('Are you sure?'),
-                          content: Text(
-                            'Do you want to cancel the appoinment',
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(false);
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(true);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    onDismissed: (direction) {},
-                    child: Card(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 4,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: ListTile(
-                          leading: Icon(Icons.alarm_on),
-                          title: Text(
-                            liveClasses[index].date,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          subtitle: Text(
-                            liveClasses[index].time,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          trailing: Text(
-                            liveClasses[index].title,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                itemCount: liveClasses.length,
-              ),
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () => showDialog(
@@ -235,8 +253,7 @@ class _TrainerHomeState extends State<TrainerHome> {
                                 SizedBox(
                                   width: 320.0,
                                   child: RaisedButton(
-                                    onPressed: () =>
-                                        liveClass(title, trainer.name),
+                                    onPressed: () => liveClass(trainer.name),
                                     child: Text(
                                       "Post",
                                       style: TextStyle(color: Colors.white),

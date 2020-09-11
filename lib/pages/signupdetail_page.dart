@@ -20,7 +20,7 @@ class SignUpDetail extends StatefulWidget {
 class _SignUpDetailState extends State<SignUpDetail> {
   int _selectedRadioButton = 0;
   final GlobalKey<FormState> _formKey = GlobalKey();
-  var _isLoading = false;
+  //var _isLoading = false;
 
   void _submit() {
     if (!_formKey.currentState.validate()) {
@@ -28,9 +28,9 @@ class _SignUpDetailState extends State<SignUpDetail> {
       return;
     }
     _formKey.currentState.save();
-    setState(() {
-      _isLoading = true;
-    });
+    // setState(() {
+    //   _isLoading = true;
+    // });
     getUserLocation();
     if (widget.mode == 0) {
       widget._authData["Gender"] =
@@ -41,8 +41,8 @@ class _SignUpDetailState extends State<SignUpDetail> {
         Provider.of<DataBase>(context, listen: false)
             .registerUserData(
                 value['idToken'], value['localId'], widget._authData)
-            .then((value) =>
-                Navigator.of(context).pushNamed(LoginPage.routeName));
+            .then((value) => Navigator.of(context)
+                .pushReplacementNamed(LoginPage.routeName));
       });
     } else {
       Provider.of<Auth>(context, listen: false)
@@ -51,14 +51,14 @@ class _SignUpDetailState extends State<SignUpDetail> {
         Provider.of<DataBase>(context, listen: false)
             .registerTrainerData(
                 value['idToken'], value['localId'], widget._authData)
-            .then((value) =>
-                Navigator.of(context).pushNamed(LoginPage.routeName));
+            .then((value) => Navigator.of(context)
+                .pushReplacementNamed(LoginPage.routeName));
       });
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 
   getUserLocation() async {
@@ -87,7 +87,7 @@ class _SignUpDetailState extends State<SignUpDetail> {
     var first = addresses.first;
     print(
         ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-    widget._authData['Address'] = first.toString();
+    widget._authData['Address'] = first.locality.toString();
   }
 
   @override

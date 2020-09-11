@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import './database_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -63,10 +62,10 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, "signInWithPassword");
   }
 
-  void logout() {
+  Future<void> logout() async {
     _token = null;
     _userId = null;
     _expiryDate = null;
-    notifyListeners();
+    return;
   }
 }

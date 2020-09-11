@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../animation/FadeAnimation.dart';
 import './login_page.dart';
 import './signup_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatelessWidget {
   static const routeName = '/welocomePage';
@@ -24,8 +25,11 @@ class WelcomePage extends StatelessWidget {
                       1,
                       Text(
                         "Welcome",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
+                        style: GoogleFonts.openSans(
+                          color: Colors.black,
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
                       )),
                   SizedBox(
                     height: 20,
@@ -35,7 +39,7 @@ class WelcomePage extends StatelessWidget {
                       Text(
                         "Automatic identity verification which enables you to verify your identity",
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey[700], fontSize: 15),
+                        style: Theme.of(context).textTheme.subtitle1,
                       )),
                 ],
               ),
@@ -55,7 +59,7 @@ class WelcomePage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoginPage()));
@@ -88,7 +92,8 @@ class WelcomePage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          Navigator.of(context).pushNamed(SignUpPage.routeName);
+                          Navigator.of(context)
+                              .pushReplacementNamed(SignUpPage.routeName);
                         },
                         color: Colors.yellow,
                         elevation: 0,

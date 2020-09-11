@@ -1,5 +1,6 @@
 import 'package:agora_flutter_quickstart/pages/workout_page.dart';
 import 'package:agora_flutter_quickstart/provider/booking_model.dart';
+import 'package:agora_flutter_quickstart/widgets/videoplayer_widget.dart';
 
 import '../data.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
@@ -73,14 +74,16 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     final user = Provider.of<DataBase>(context, listen: false).getUser;
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              backgroundColor: Theme.of(context).backgroundColor,
+            ),
           )
         : Scaffold(
             backgroundColor: Theme.of(context).backgroundColor,
             extendBody: true,
             body: CustomScrollView(
               slivers: [
-                MyAppbar("Hello, ${user.name}", "Home", true),
+                MyAppbar("Hello, ${user.name}", "Home", true, user),
                 SliverFillRemaining(
                   child: buildPage(),
                 )
@@ -97,7 +100,10 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(Icons.arrow_drop_up),
-                    Text("Sessions"),
+                    Text(
+                      "Sessions",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                     Icon(Icons.arrow_drop_up),
                   ],
                 ),
@@ -116,84 +122,91 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   ),
                 ),
               ),
-              body: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    key: ValueKey(index),
-                    background: Container(
-                      color: Theme.of(context).errorColor,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.only(right: 20),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 4,
-                      ),
+              body: appoinments.length != 0
+                  ? ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          key: ValueKey(index),
+                          background: Container(
+                            color: Theme.of(context).errorColor,
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 20),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 4,
+                            ),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          confirmDismiss: (direction) {
+                            return showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: Text(
+                                  'Are you sure?',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                content: Text(
+                                  'Do you want to cancel the appoinment',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text(
+                                      'No',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop(false);
+                                    },
+                                  ),
+                                  FlatButton(
+                                    child: Text(
+                                      'Yes',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop(true);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          onDismissed: (direction) {},
+                          child: Card(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 4,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: ListTile(
+                                leading: Icon(Icons.alarm_on),
+                                title: Text(
+                                  appoinments[index].date,
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                subtitle: Text(
+                                  appoinments[index].time,
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                // trailing: Text(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: appoinments.length,
+                    )
+                  : Center(
+                      child: Text("No Appoinmnets are scheduled",
+                          style: Theme.of(context).textTheme.headline3),
                     ),
-                    direction: DismissDirection.endToStart,
-                    confirmDismiss: (direction) {
-                      return showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text('Are you sure?'),
-                          content: Text(
-                            'Do you want to cancel the appoinment',
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(false);
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(true);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    onDismissed: (direction) {},
-                    child: Card(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 4,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: ListTile(
-                          leading: Icon(Icons.alarm_on),
-                          title: Text(
-                            appoinments[index].date,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          subtitle: Text(
-                            appoinments[index].time,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          // trailing: Text(),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                itemCount: appoinments.length,
-              ),
             ),
           );
   }
@@ -222,14 +235,11 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 top: 20,
                 left: 5,
                 child: Container(
-                  width: 120,
+                  width: 125,
                   height: 30,
                   child: Text(
                     "Trending",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                    ),
+                    style: Theme.of(context).textTheme.headline4,
                   ),
                   decoration: BoxDecoration(
                     border: Border(
@@ -276,35 +286,45 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 width: 10,
               ),
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      width: 200,
-                      height: 200,
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          strengthTrainerData[index].image,
-                          fit: BoxFit.fill,
+                return InkWell(
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: VideoPlayerApp(workoutList[index].videos),
+                      );
+                    },
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        width: 200,
+                        height: 200,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            workoutList[index].image,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
-                    Text(
-                      "Core Burn Out",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
+                      Text(
+                        workoutList[index].name,
+                        style: Theme.of(context).textTheme.headline3,
+                      )
+                    ],
+                  ),
                 );
               },
               scrollDirection: Axis.horizontal,
-              itemCount: strengthTrainerData.length,
+              itemCount: workoutList.length,
               shrinkWrap: true,
             ),
           ),
@@ -325,11 +345,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
               padding: const EdgeInsets.all(10),
               child: Text(
                 title,
-                style: TextStyle(
-                  color: Colors.blueGrey[600],
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headline3,
               ),
             ),
           ),
@@ -346,11 +362,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.only(left: 20),
           child: Text(
             title,
-            style: TextStyle(
-              color: Colors.blueGrey[600],
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.headline4,
           ),
         ),
         Container(
@@ -363,8 +375,19 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             ),
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () => Navigator.of(context)
-                    .pushNamed(WorkOutPage.routeName, arguments: index),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Container(
+                        child: VideoPlayerApp(workoutList[index].videos),
+                      ),
+                    );
+                  },
+                ),
                 child: Card(
                   elevation: 5,
                   child: Container(
@@ -393,10 +416,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                           width: 144,
                           child: Text(
                             workoutList[index].name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.headline3,
                             overflow: TextOverflow.clip,
                           ),
                         ),

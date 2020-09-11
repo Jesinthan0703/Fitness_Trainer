@@ -159,6 +159,7 @@ class Booking with ChangeNotifier {
         'https://fitnesstrainer-16a03.firebaseio.com/liveClass/$userId.json?auth?auth=$authToken';
 
     var newTime = time.toString().substring(0, 5);
+    print(title);
     final response = await http.post(
       url,
       body: json.encode({
@@ -186,6 +187,7 @@ class Booking with ChangeNotifier {
           channelName: userId,
         ),
       );
+      notifyListeners();
       return true;
     } else {
       print("failed liveClass");
@@ -207,6 +209,40 @@ class Booking with ChangeNotifier {
       extractedData.forEach((key, value) {
         var data = extractedData[key] as Map;
         data = data.values.first;
+        liveClass.add(
+          LiveClass(
+            date: data['Date'],
+            time: data['Time'],
+            name: data['user'],
+            title: data['title'],
+            participants: data['participants'],
+            image: data['image'],
+            channelName: data['channelName'],
+          ),
+        );
+      });
+      print("liveClass" + liveClass.toString());
+      notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
+    return;
+  }
+
+  Future<void> loadLiveClassTrainer() async {
+    print("LiveClass");
+    final url =
+        'https://fitnesstrainer-16a03.firebaseio.com/liveClass/$userId.json?auth=$authToken';
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      print("extrated data " + extractedData.toString());
+      if (extractedData == null) {
+        return null;
+      }
+      extractedData.forEach((key, value) {
+        var data = extractedData[key] as Map;
+        //data = data.values.first;
         liveClass.add(
           LiveClass(
             date: data['Date'],

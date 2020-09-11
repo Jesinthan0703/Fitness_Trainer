@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import '../pages/training_page.dart';
 import '../pages/profile_page.dart';
 
@@ -7,21 +6,29 @@ class MyAppbar extends StatelessWidget {
   final String content;
   final String title;
   final bool ishome;
-
-  MyAppbar(this.content, this.title, this.ishome);
+  final user;
+  MyAppbar(this.content, this.title, this.ishome, this.user);
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       actions: [
-        IconButton(
-          icon: Icon(Icons.account_circle),
-          onPressed: () =>
-              Navigator.of(context).pushNamed(ProfilePage.routeName),
-        )
+        if (user != null)
+          IconButton(
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ProfilePage(user),
+              ),
+            ),
+          )
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          padding: const EdgeInsets.only(top: 120, left: 30),
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(top: 120, left: 20),
           //color: Colors.amber,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -46,11 +53,7 @@ class MyAppbar extends StatelessWidget {
                 width: 350,
                 child: Text(
                   content,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline1,
                   overflow: TextOverflow.clip,
                 ),
               ),
@@ -82,49 +85,8 @@ class MyAppbar extends StatelessWidget {
       backgroundColor: const Color(0xff00e0ff),
       title: Text(
         title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.headline2,
       ),
     );
-    // return PreferredSize(
-    //   preferredSize: Size.fromHeight(300),
-    //   child: Card(
-    //     color: Colors.lightBlue,
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(30),
-    //     ),
-    //     child: Column(
-    //       children: [
-    //         AppBar(
-    //           elevation: 0,
-    //           backgroundColor: Colors.transparent,
-    //         ),
-    //         Container(
-    //           padding: const EdgeInsets.only(top: 160, left: 30),
-    //           //color: Colors.amber,
-    //           height: 236,
-    //           width: double.infinity,
-    //           decoration: BoxDecoration(
-    //             borderRadius: BorderRadius.only(
-    //                 bottomLeft: Radius.circular(30),
-    //                 bottomRight: Radius.circular(30)),
-    //             //color: Colors.amber,
-    //           ),
-    //           child: Text(
-    //             content,
-    //             style: TextStyle(
-    //               color: Colors.white,
-    //               fontSize: 35,
-    //               fontWeight: FontWeight.bold,
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

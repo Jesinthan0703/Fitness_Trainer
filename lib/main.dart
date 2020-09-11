@@ -1,4 +1,5 @@
-import 'package:agora_flutter_quickstart/pages/test.dart';
+import 'package:agora_flutter_quickstart/widgets/videoplayer_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:agora_flutter_quickstart/pages/videodetail_page.dart';
 import 'package:agora_flutter_quickstart/pages/workout_page.dart';
 
@@ -43,15 +44,62 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.black,
-          accentColor: Colors.pink[100],
-          backgroundColor: const Color(0xffe3e3e3),
+          primaryColor: Colors.white,
+          accentColor: Colors.blue[400],
+          backgroundColor: Colors.white,
           buttonColor: Colors.lightBlue[300],
           appBarTheme: AppBarTheme(
               color: Colors.white, elevation: 4, shadowColor: Colors.grey),
+          textTheme: TextTheme(
+            headline1: GoogleFonts.openSans(
+              color: Colors.white,
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+            subtitle1: GoogleFonts.lato(
+              color: Colors.black,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+            headline2: GoogleFonts.openSans(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            headline3: GoogleFonts.openSans(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            headline4: GoogleFonts.openSans(
+              color: Colors.black,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            headline5: GoogleFonts.openSans(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            bodyText1: GoogleFonts.openSans(
+              color: Colors.grey,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+            ),
+            bodyText2: GoogleFonts.lato(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+            ),
+            button: GoogleFonts.roboto(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ),
         home: LaunchPage(),
-        // home: TrainerHome(),
+        //home: VideoDetail(),
         // home: Example(),
         routes: {
           WelcomePage.routeName: (ctx) => WelcomePage(),
@@ -62,7 +110,6 @@ class MyApp extends StatelessWidget {
           TrainingPage.routeName: (ctx) => TrainingPage(),
           VideoDetail.routeName: (ctx) => VideoDetail(),
           TrainerHome.routeName: (ctx) => TrainerHome(),
-          ProfilePage.routeName: (ctx) => ProfilePage(),
           WorkOutPage.routeName: (ctx) => WorkOutPage(),
         },
       ),

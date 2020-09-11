@@ -67,12 +67,14 @@ class _TrainingPageState extends State<TrainingPage>
   Widget build(BuildContext context) {
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              backgroundColor: Theme.of(context).backgroundColor,
+            ),
           )
         : Scaffold(
             body: CustomScrollView(
               slivers: [
-                MyAppbar("Choose your Way", "Trainings", false),
+                MyAppbar("Choose your Way", "Trainings", false, null),
                 SliverToBoxAdapter(
                   child: buildPageIndicator(),
                 ),
@@ -114,7 +116,10 @@ class _TrainingPageState extends State<TrainingPage>
         children: [
           RaisedButton(
             onPressed: activePage == 0 ? () {} : null,
-            child: Text("In-Personal"),
+            child: Text(
+              "In-Personal",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.horizontal(
@@ -127,7 +132,10 @@ class _TrainingPageState extends State<TrainingPage>
           ),
           RaisedButton(
             onPressed: activePage == 1 ? () {} : null,
-            child: Text("Offline Videos"),
+            child: Text(
+              "Videos",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.horizontal(
@@ -140,7 +148,10 @@ class _TrainingPageState extends State<TrainingPage>
           ),
           RaisedButton(
             onPressed: activePage == 2 ? () {} : null,
-            child: Text("Online Classes"),
+            child: Text(
+              "Online Classes",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.horizontal(
@@ -162,22 +173,14 @@ class _TrainingPageState extends State<TrainingPage>
         padding: const EdgeInsets.only(left: 20),
         child: Text(
           "Featured Workout Collections",
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: "YesterdayDream",
-            fontSize: 25,
-          ),
+          style: Theme.of(context).textTheme.headline4,
         ),
       ),
       Padding(
         padding: const EdgeInsets.only(left: 20),
         child: Text(
           "Get Guidance to reach your goals",
-          style: TextStyle(
-            color: Colors.grey,
-            fontFamily: "YesterdayDream",
-            fontSize: 25,
-          ),
+          style: Theme.of(context).textTheme.bodyText1,
         ),
       ),
     ];
@@ -220,10 +223,10 @@ class _TrainingPageState extends State<TrainingPage>
       ),
       Text(
         "What's New",
-        style: TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.headline4,
+      ),
+      SizedBox(
+        height: 20,
       ),
     ];
     for (int i = 0; i < offlineVideosData.length; i++) {
@@ -256,10 +259,7 @@ class _TrainingPageState extends State<TrainingPage>
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
                   data.category,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline3,
                 ),
                 width: 150,
               ),
@@ -300,18 +300,15 @@ class _TrainingPageState extends State<TrainingPage>
   }
 
   Widget page_3() {
-    return ListView(
-      children: classs(),
-    );
-  }
-
-  List<Widget> classs() {
-    List<Widget> classList = [];
-
-    for (int i = 0; i < dataList.length; i++) {
-      classList.add(buildClass(dataList[i]));
-    }
-    return classList;
+    return dataList.length != 0
+        ? ListView.builder(
+            itemBuilder: (context, index) => buildClass(dataList[index]),
+            itemCount: dataList.length,
+          )
+        : Center(
+            child: Text("No Live Classes are available",
+                style: Theme.of(context).textTheme.headline3),
+          );
   }
 
   Widget buildWorkout(final data) {
@@ -339,11 +336,7 @@ class _TrainingPageState extends State<TrainingPage>
                 left: 10,
                 child: Text(
                   data.name,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               )
             ],
@@ -378,15 +371,11 @@ class _TrainingPageState extends State<TrainingPage>
             children: <Widget>[
               Text(
                 data.title,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headline5,
               ),
               Text(
                 data.name,
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                style: Theme.of(context).textTheme.headline2,
               ),
             ],
           ),
@@ -415,11 +404,7 @@ class _TrainingPageState extends State<TrainingPage>
                             ),
                             Text(
                               "${data.date}, ${data.time}",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.headline2,
                             ),
                           ],
                         ),
@@ -437,11 +422,7 @@ class _TrainingPageState extends State<TrainingPage>
                             ),
                             Text(
                               "${data.participants} Attendees",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.headline2,
                             ),
                           ],
                         ),
@@ -450,7 +431,10 @@ class _TrainingPageState extends State<TrainingPage>
                   ),
                 ),
                 RaisedButton(
-                  child: Text("Join"),
+                  child: Text(
+                    "Join",
+                    style: Theme.of(context).textTheme.button,
+                  ),
                   onPressed: () {
                     onJoin(data.channelName);
                   },
