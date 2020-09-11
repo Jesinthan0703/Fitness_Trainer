@@ -1,7 +1,5 @@
-import 'package:agora_flutter_quickstart/widgets/videoplayer_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:agora_flutter_quickstart/pages/videodetail_page.dart';
-import 'package:agora_flutter_quickstart/pages/workout_page.dart';
 
 import './pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +108,6 @@ class MyApp extends StatelessWidget {
           TrainingPage.routeName: (ctx) => TrainingPage(),
           VideoDetail.routeName: (ctx) => VideoDetail(),
           TrainerHome.routeName: (ctx) => TrainerHome(),
-          WorkOutPage.routeName: (ctx) => WorkOutPage(),
         },
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:agora_flutter_quickstart/pages/workout_page.dart';
 import 'package:agora_flutter_quickstart/provider/booking_model.dart';
 import 'package:agora_flutter_quickstart/widgets/videoplayer_widget.dart';
 

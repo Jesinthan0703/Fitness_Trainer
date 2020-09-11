@@ -35,6 +35,9 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+    aaptOptions {
+        noCompress 'mp4'
+    }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).

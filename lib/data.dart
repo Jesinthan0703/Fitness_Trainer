@@ -480,6 +480,13 @@ const List<Trainer> aerialYogaTrainerData = const [
   ),
 ];
 
+// assets/butterfly_stretch.mp4
+// assets/downward_dog.mp4
+// assets/plank2.mp4
+// assets/push_ups.mp4
+// assets/sl_glute_bridge.mp4
+// assets/triangle_pose.mp4
+
 const List<Videos> offlineVideosData = const [
   Videos(
     category: "Mobility",
@@ -487,7 +494,7 @@ const List<Videos> offlineVideosData = const [
     workouts: [
       Workout(
         name: "Single Leg Glute Bridge",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -495,7 +502,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "Butterfly Stretch",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -503,7 +510,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "Leg Extension",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -511,7 +518,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "Scorpion",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "5 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -520,7 +527,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "90/90",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -528,7 +535,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "Lion Stretch",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -536,7 +543,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "YTWL",
-        videos: "assest/videos/sl_glute_bridge.mp4",
+        videos: "assest/sl_glute_bridge.mp4",
         reps: "10 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -545,7 +552,7 @@ const List<Videos> offlineVideosData = const [
       ),
       Workout(
         name: "Adductor Rocks",
-        videos: "assets/videos/sl_glute_bridge.mp4",
+        videos: "assets/sl_glute_bridge.mp4",
         reps: "10 each side",
         sets: 1,
         image: "assets/images/Strength.jpg",
@@ -1266,7 +1273,7 @@ const List<Videos> offlineVideosData = const [
 const List<Workout> workoutList = [
   Workout(
     name: "Single Leg Glute Bridge",
-    videos: "assets/videos/sl_glute_bridge.mp4",
+    videos: "assets/sl_glute_bridge.mp4",
     image: "assets/images/Pilates.jpg",
     reps: "10 each side",
     sets: 1,
@@ -1274,7 +1281,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "Butterfly Stretch",
-    videos: "assets/videos/butterfly_stretch.mp4",
+    videos: "assets/butterfly_stretch.mp4",
     image: "assets/images/endurance.jpg",
     reps: "10",
     sets: 1,
@@ -1282,7 +1289,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "Leg Extension",
-    videos: "assets/videos/sl_glute_bridge.mp4",
+    videos: "assets/sl_glute_bridge.mp4",
     image: "assets/images/Muscle.png",
     reps: "10 each side",
     sets: 1,
@@ -1290,7 +1297,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "Scorpion",
-    videos: "assets/videos/downward_dog.mp4",
+    videos: "assets/downward_dog.mp4",
     reps: "5 each side",
     image: "assets/images/rehab.jpg",
     sets: 1,
@@ -1298,7 +1305,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "90/90",
-    videos: "assets/videos/plank2.mp4",
+    videos: "assets/plank2.mp4",
     reps: "10 each side",
     image: "assets/images/speed.jpg",
     sets: 1,
@@ -1306,7 +1313,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "Lion Stretch",
-    videos: "assets/videos/triangle_pose.mp4",
+    videos: "assets/triangle_pose.mp4",
     image: "assets/images/Strength.jpg",
     reps: "10",
     sets: 1,
@@ -1314,7 +1321,7 @@ const List<Workout> workoutList = [
   ),
   Workout(
     name: "YTWL",
-    videos: "assets/videos/push_up.mp4",
+    videos: "assets/push_ups.mp4",
     reps: "10 each side",
     image: "assets/images/agility.jpg",
     sets: 1,
