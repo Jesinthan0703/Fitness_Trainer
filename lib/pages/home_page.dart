@@ -203,7 +203,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                       itemCount: appoinments.length,
                     )
                   : Center(
-                      child: Text("No Appoinmnets are scheduled",
+                      child: Text("No Appoinments are scheduled",
                           style: Theme.of(context).textTheme.headline3),
                     ),
             ),
@@ -211,6 +211,11 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   }
 
   Widget buildPage() {
+    var images = [
+      'assets/images/1.jpg',
+      'assets/images/2.jpg',
+      'assets/images/3.jpg',
+    ];
     return ListView(
       children: [
         Card(
@@ -222,11 +227,11 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 child: Swiper(
                   itemBuilder: (BuildContext context, int index) {
                     return new Image.asset(
-                      "assets/images/speed.jpg",
+                      images[index],
                       fit: BoxFit.fill,
                     );
                   },
-                  itemCount: 3,
+                  itemCount: images.length,
                   pagination: new SwiperPagination(),
                 ),
               ),

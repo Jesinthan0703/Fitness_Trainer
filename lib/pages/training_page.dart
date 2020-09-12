@@ -203,6 +203,11 @@ class _TrainingPageState extends State<TrainingPage>
   }
 
   Widget page_2() {
+    var images = [
+      'assets/images/6.jpg',
+      'assets/images/11.jpg',
+      'assets/images/12.jpg',
+    ];
     List<Widget> children = [
       Container(
         height: 200,
@@ -210,20 +215,23 @@ class _TrainingPageState extends State<TrainingPage>
         child: Swiper(
           itemBuilder: (BuildContext context, int index) {
             return new Image.asset(
-              "assets/images/speed.jpg",
+              images[index],
               fit: BoxFit.fill,
             );
           },
-          itemCount: 3,
+          itemCount: images.length,
           pagination: new SwiperPagination(),
         ),
       ),
       SizedBox(
         height: 20,
       ),
-      Text(
-        "What's New",
-        style: Theme.of(context).textTheme.headline4,
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(
+          "What's New",
+          style: Theme.of(context).textTheme.headline4,
+        ),
       ),
       SizedBox(
         height: 20,

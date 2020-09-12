@@ -15,7 +15,7 @@ import './pages/training_page.dart';
 import './pages/login_page.dart';
 import './pages/signup_page.dart';
 import './pages/welcome_page.dart';
-import './pages/profile_page.dart';
+import './pages/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: LaunchPage(),
+        home: SplashScreen(),
         //home: VideoDetail(),
         // home: Example(),
         routes: {

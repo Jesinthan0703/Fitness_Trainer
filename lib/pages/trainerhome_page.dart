@@ -5,6 +5,9 @@ import '../provider/database_model.dart';
 import '../widgets/appBar_widget.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
+import './call_page.dart';
 
 class TrainerHome extends StatefulWidget {
   static const routeName = '/trainerHome';
@@ -17,6 +20,7 @@ class _TrainerHomeState extends State<TrainerHome> {
   String dateTime;
   String title;
   var _isInit = true;
+  ClientRole _role = ClientRole.Broadcaster;
   var _isLoading = false;
   List appoinments;
   List liveClasses;
@@ -180,20 +184,18 @@ class _TrainerHomeState extends State<TrainerHome> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  liveClasses[index].time,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                trailing: Text(
                                   liveClasses[index].title,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
+                                ),
+                                trailing: RaisedButton(
+                                  child: Text("Join"),
+                                  onPressed: () {
+                                    onJoin(liveClasses[index].channelName);
+                                  },
                                 ),
                               ),
                             ),
@@ -283,7 +285,7 @@ class _TrainerHomeState extends State<TrainerHome> {
           margin: const EdgeInsets.all(10),
           elevation: 5,
           child: Container(
-            height: 170,
+            height: 200,
             child: Column(
               children: [
                 Text(
@@ -297,7 +299,7 @@ class _TrainerHomeState extends State<TrainerHome> {
                   height: 10,
                 ),
                 Text(
-                  "${appoinments[index].date}, ${appoinments[index].time}",
+                  "Date: ${appoinments[index].date}\n Time: ${appoinments[index].time}",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -363,6 +365,29 @@ class _TrainerHomeState extends State<TrainerHome> {
         return null;
       },
       onSaved: (val) => dateTime = val.toString(),
+    );
+  }
+
+  Future<void> onJoin(String channelName) async {
+    if (channelName.isNotEmpty) {
+      // await for camera and mic permissions before pushing video page
+      await _handleCameraAndMic();
+      // push video page with given channel name
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CallPage(
+            channelName: channelName,
+            role: _role,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
     );
   }
 }

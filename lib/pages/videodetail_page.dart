@@ -172,23 +172,12 @@ class VideoDetail extends StatelessWidget {
                     Container(
                       width: 144,
                       height: 150,
-                      child: Column(
-                        children: [
-                          Text(
-                            data["workouts"][index].name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            data["workouts"][index].muscleGroupTargeted,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        data["workouts"][index].name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     SizedBox(

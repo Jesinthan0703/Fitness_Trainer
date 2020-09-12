@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:snapclip_pageview/snapclip_pageview.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:location/location.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:flutter/services.dart';
 
 class TrainerPage extends StatefulWidget {
   static const routeName = '/trainerpage';
@@ -24,20 +27,51 @@ class _TrainerPageState extends State<TrainerPage> {
     super.initState();
   }
 
+  Future<String> getUserLocation() async {
+    //call this async method from whereever you need
+
+    LocationData myLocation;
+    String error;
+    Location location = new Location();
+    try {
+      myLocation = await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        error = 'please grant permission';
+        print(error);
+      }
+      if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        error = 'permission denied- please enable it from app settings';
+        print(error);
+      }
+      myLocation = null;
+    }
+    final coordinates =
+        new Coordinates(myLocation.latitude, myLocation.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print(
+        ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
+    return first.locality.toString();
+  }
+
   void _book(final trainerId, final name) {
     print("book");
     _formKey.currentState.save();
     List<String> dateTimeSplit = dateTime.split(" ");
-    Provider.of<Booking>(context, listen: false)
-        .book(dateTimeSplit[0], dateTimeSplit[1], "temporary", trainerId, name)
-        .then((_) {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text("Booked"),
-          duration: Duration(seconds: 2),
-        ),
-      );
-      Navigator.of(context).pop();
+    getUserLocation().then((value) {
+      Provider.of<Booking>(context, listen: false)
+          .book(dateTimeSplit[0], dateTimeSplit[1], value, trainerId, name)
+          .then((_) {
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text("Session Booked"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        Navigator.of(context).pop();
+      });
     });
   }
 

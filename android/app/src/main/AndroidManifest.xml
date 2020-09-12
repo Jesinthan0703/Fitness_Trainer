@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="fitness_trainer"
+        android:label="DabFitness"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
