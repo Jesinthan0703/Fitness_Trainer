@@ -83,133 +83,138 @@ class _TrainerHomeState extends State<TrainerHome> {
             key: _scaffoldKey,
             //backgroundColor: const Color(0xff000000),
             backgroundColor: Theme.of(context).backgroundColor,
-            body: CustomScrollView(
-              slivers: [
-                MyAppbar("Hello, ${trainer.name}", "Home", false, trainer),
-                SliverFillRemaining(
-                  child: buildPage(),
-                )
-              ],
-            ),
-            bottomSheet: SolidBottomSheet(
-              elevation: 4,
-              toggleVisibilityOnTap: true,
-              headerBar: Container(
-                height: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.arrow_drop_up),
-                    Text("My Classes"),
-                    Icon(Icons.arrow_drop_up),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xff00e0ff),
-                      const Color(0xff095e79),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
+            body: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: CustomScrollView(
+                slivers: [
+                  MyAppbar("Hello, ${trainer.name}", "Home", false, trainer),
+                  SliverFillRemaining(
+                    child: buildPage(),
+                  )
+                ],
               ),
-              body: appoinments.length != 0
-                  ? ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Dismissible(
-                          key: ValueKey(index),
-                          background: Container(
-                            color: Theme.of(context).errorColor,
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                            alignment: Alignment.centerRight,
-                            padding: EdgeInsets.only(right: 20),
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 4,
-                            ),
-                          ),
-                          direction: DismissDirection.endToStart,
-                          confirmDismiss: (direction) {
-                            return showDialog(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                title: Text('Are you sure?'),
-                                content: Text(
-                                  'Do you want to cancel the appoinment',
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    child: Text('No'),
-                                    onPressed: () {
-                                      Navigator.of(ctx).pop(false);
-                                    },
-                                  ),
-                                  FlatButton(
-                                    child: Text('Yes'),
-                                    onPressed: () {
-                                      Navigator.of(ctx).pop(true);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          onDismissed: (direction) {},
-                          child: Card(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 4,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: ListTile(
-                                leading: Icon(Icons.alarm_on),
-                                title: Text(
-                                  liveClasses[index].date,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  liveClasses[index].title,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                trailing: RaisedButton(
-                                  child: Text("Join"),
-                                  onPressed: () {
-                                    onJoin(liveClasses[index].channelName);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      itemCount: liveClasses.length,
-                    )
-                  : Center(
-                      child: Text(
-                        "No Live Classes are scheduled",
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
+            ),
+            bottomSheet: Consumer<Booking>(
+              builder: (context, value, child) => SolidBottomSheet(
+                elevation: 4,
+                toggleVisibilityOnTap: true,
+                headerBar: Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.arrow_drop_up),
+                      Text("My Classes"),
+                      Icon(Icons.arrow_drop_up),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
+                    gradient: LinearGradient(
+                      colors: [
+                        const Color(0xff00e0ff),
+                        const Color(0xff095e79),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+                body: appoinments.length != 0
+                    ? ListView.builder(
+                        itemBuilder: (context, index) {
+                          return Dismissible(
+                            key: ValueKey(index),
+                            background: Container(
+                              color: Theme.of(context).errorColor,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.only(right: 20),
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 4,
+                              ),
+                            ),
+                            direction: DismissDirection.endToStart,
+                            confirmDismiss: (direction) {
+                              return showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: Text('Are you sure?'),
+                                  content: Text(
+                                    'Do you want to cancel the appoinment',
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('No'),
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop(false);
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text('Yes'),
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop(true);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            onDismissed: (direction) {},
+                            child: Card(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 4,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: ListTile(
+                                  leading: Icon(Icons.alarm_on),
+                                  title: Text(
+                                    liveClasses[index].date,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    liveClasses[index].title,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  trailing: RaisedButton(
+                                    child: Text("Join"),
+                                    onPressed: () {
+                                      onJoin(liveClasses[index].channelName);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: liveClasses.length,
+                      )
+                    : Center(
+                        child: Text(
+                          "No Live Classes are scheduled",
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                      ),
+              ),
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () => showDialog(

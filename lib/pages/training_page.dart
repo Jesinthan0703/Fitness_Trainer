@@ -72,31 +72,34 @@ class _TrainingPageState extends State<TrainingPage>
             ),
           )
         : Scaffold(
-            body: CustomScrollView(
-              slivers: [
-                MyAppbar("Choose your Way", "Trainings", false, null),
-                SliverToBoxAdapter(
-                  child: buildPageIndicator(),
-                ),
-                // Divider(),
-                SliverFillRemaining(
-                  child: PageView(
-                    children: [
-                      page_1(),
-                      page_2(),
-                      page_3(),
-                    ],
-                    controller: _pageController,
-                    onPageChanged: (index) {
-                      if (index != activePage) {
-                        setState(() {
-                          activePage = index;
-                        });
-                      }
-                    },
+            body: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: CustomScrollView(
+                slivers: [
+                  MyAppbar("Choose your Way", "Trainings", false, null),
+                  SliverToBoxAdapter(
+                    child: buildPageIndicator(),
                   ),
-                )
-              ],
+                  // Divider(),
+                  SliverFillRemaining(
+                    child: PageView(
+                      children: [
+                        page_1(),
+                        page_2(),
+                        page_3(),
+                      ],
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        if (index != activePage) {
+                          setState(() {
+                            activePage = index;
+                          });
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           );
   }
@@ -256,9 +259,10 @@ class _TrainingPageState extends State<TrainingPage>
         },
       ),
       child: Card(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
           height: 200,
+          width: 400,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

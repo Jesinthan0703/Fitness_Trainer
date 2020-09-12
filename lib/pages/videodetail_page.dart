@@ -77,12 +77,15 @@ class VideoDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Text(
-                                "30 mins",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.red),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  "30 mins",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.red),
+                                ),
                               ),
                             ],
                           ),

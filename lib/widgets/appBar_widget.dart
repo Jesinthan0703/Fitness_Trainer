@@ -27,8 +27,8 @@ class MyAppbar extends StatelessWidget {
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.only(top: 120, left: 20),
+          //width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(top: 120, right: 17),
           //color: Colors.amber,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -45,9 +45,9 @@ class MyAppbar extends StatelessWidget {
             ),
           ),
           // height: 100,
-          // width: 100,
+          width: 500,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                 width: 350,

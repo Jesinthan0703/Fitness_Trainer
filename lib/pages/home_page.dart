@@ -80,20 +80,23 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         : Scaffold(
             backgroundColor: Theme.of(context).backgroundColor,
             extendBody: true,
-            body: CustomScrollView(
-              slivers: [
-                MyAppbar("Hello, ${user.name}", "Home", true, user),
-                SliverFillRemaining(
-                  child: buildPage(),
-                )
-              ],
+            body: Container(
+              margin: const EdgeInsets.all(10),
+              child: CustomScrollView(
+                slivers: [
+                  MyAppbar("Hello, ${user.name}", "Home", true, user),
+                  SliverFillRemaining(
+                    child: buildPage(),
+                  )
+                ],
+              ),
             ),
             // drawer: Drawer(),
             bottomSheet: SolidBottomSheet(
               elevation: 4,
               toggleVisibilityOnTap: true,
               headerBar: Container(
-                height: 20,
+                height: 30,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

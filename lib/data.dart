@@ -135,7 +135,7 @@ const List<WorkoutCategory> workOutCategoryData = const [
   ),
   WorkoutCategory(
     name: "Yoga",
-    image: "assets/images/Triangle_Pose.jpg",
+    image: "assets/images/workout/Triangle_Pose.jpg",
     trainers: yogaTrainerData,
   ),
   WorkoutCategory(
