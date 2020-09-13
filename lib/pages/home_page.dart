@@ -374,7 +374,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         ),
         Container(
           height: 500,
-          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           // color: Colors.blue,
           child: ListView.separated(
             separatorBuilder: (context, index) => SizedBox(

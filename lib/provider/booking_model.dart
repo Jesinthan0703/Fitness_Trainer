@@ -153,7 +153,7 @@ class Booking with ChangeNotifier {
     return;
   }
 
-  Future<void> startLiveClass(
+  Future<List> startLiveClass(
       final date, final time, final name, final title) async {
     final url =
         'https://fitnesstrainer-16a03.firebaseio.com/liveClass/$userId.json?auth?auth=$authToken';
@@ -188,10 +188,10 @@ class Booking with ChangeNotifier {
         ),
       );
       notifyListeners();
-      return true;
+      return liveClass;
     } else {
       print("failed liveClass");
-      return false;
+      return liveClass;
     }
   }
 

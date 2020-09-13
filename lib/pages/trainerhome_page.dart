@@ -57,7 +57,8 @@ class _TrainerHomeState extends State<TrainerHome> {
     List<String> dateTimeSplit = dateTime.split(" ");
     Provider.of<Booking>(context, listen: false)
         .startLiveClass(dateTimeSplit[0], dateTimeSplit[1], trainerName, title)
-        .then((_) {
+        .then((value) {
+      appoinments = value;
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
           content: Text("Class Scheduled"),
