@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
-  PageController _pageController;
   var _isInit = true;
   var _isLoading = false;
   var appoinments;
@@ -33,12 +32,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   }
 
   //int currentPage = 0;
-
-  @override
-  void initState() {
-    _pageController = PageController(initialPage: 0);
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
@@ -60,12 +53,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     }
     _isInit = false;
     super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   @override

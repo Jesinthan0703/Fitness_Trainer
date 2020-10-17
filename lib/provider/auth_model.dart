@@ -27,7 +27,7 @@ class Auth with ChangeNotifier {
   Future<Map> _authenticate(
       String email, String password, String urlSegment) async {
     final url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDLk3hE5lJWmcqSelGKihKHF3K65pvmyZY";
+        "https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyCH8RIUBAKh9E4GB1OZuFlI7KRaviQMKSU";
     print('auth');
     final response = await http.post(
       url,

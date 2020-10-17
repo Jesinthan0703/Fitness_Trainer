@@ -58,7 +58,7 @@ class Booking with ChangeNotifier {
       final name) async {
     print(authToken + " " + userId);
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/appoinmnets/$userId.json?auth?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/$userId.json?auth?auth=$authToken';
     var newTime = time.toString().substring(0, 5);
     final response = await http.post(
       url,
@@ -91,7 +91,7 @@ class Booking with ChangeNotifier {
   Future<void> getMyAppoinments() async {
     print("appoinments");
     final trainerUrl =
-        'https://fitnesstrainer-16a03.firebaseio.com/appoinmnets.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/appoinments.json?auth=$authToken';
     try {
       final trainerResponse = await http.get(trainerUrl);
       final extractedDataTrainer =
@@ -125,7 +125,7 @@ class Booking with ChangeNotifier {
   Future<void> loadMyAppoinments() async {
     print("appoinments");
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/appoinmnets/$userId.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/appoinments/$userId.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -156,7 +156,7 @@ class Booking with ChangeNotifier {
   Future<List> startLiveClass(
       final date, final time, final name, final title) async {
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/liveClass/$userId.json?auth?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/liveClass/$userId.json?auth?auth=$authToken';
 
     var newTime = time.toString().substring(0, 5);
     print(title);
@@ -198,7 +198,7 @@ class Booking with ChangeNotifier {
   Future<void> loadLiveClass() async {
     print("LiveClass");
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/liveClass.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/liveClass.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -232,7 +232,7 @@ class Booking with ChangeNotifier {
   Future<void> loadLiveClassTrainer() async {
     print("LiveClass");
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/liveClass/$userId.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/liveClass/$userId.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

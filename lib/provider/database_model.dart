@@ -70,7 +70,7 @@ class DataBase with ChangeNotifier {
   Future<void> loadTrainers(final authToken) async {
     print("trainers");
     final trainerUrl =
-        'https://fitnesstrainer-16a03.firebaseio.com/trainers.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/trainers.json?auth=$authToken';
     try {
       final trainerResponse = await http.get(trainerUrl);
       final extractedDataTrainer =
@@ -106,9 +106,9 @@ class DataBase with ChangeNotifier {
 
   Future<int> loadData(final authToken, final userId) async {
     final userUrl =
-        'https://fitnesstrainer-16a03.firebaseio.com/users.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/users.json?auth=$authToken';
     final trainerUrl =
-        'https://fitnesstrainer-16a03.firebaseio.com/trainers.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/trainers.json?auth=$authToken';
     try {
       final userResponse = await http.get(userUrl);
       final extractedDataUser =
@@ -163,7 +163,7 @@ class DataBase with ChangeNotifier {
   Future<void> registerUserData(
       final authToken, final userId, final data) async {
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/users/$userId.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/users/$userId.json?auth=$authToken';
     final timestamp = DateTime.now();
     print(data);
     final response = await http.post(
@@ -188,7 +188,7 @@ class DataBase with ChangeNotifier {
   Future<void> registerTrainerData(
       final authToken, final userId, final data) async {
     final url =
-        'https://fitnesstrainer-16a03.firebaseio.com/trainers/$userId.json?auth=$authToken';
+        'https://dab-fitness.firebaseio.com/trainers/$userId.json?auth=$authToken';
     final timestamp = DateTime.now();
     print(data);
     final response = await http.post(

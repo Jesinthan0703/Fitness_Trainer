@@ -38,6 +38,8 @@ class _SignUpDetailState extends State<SignUpDetail> {
       Provider.of<Auth>(context, listen: false)
           .signUp(widget._authData["email"], widget._authData["password"])
           .then((value) {
+        print("sign up");
+        print(value['idToken']);
         Provider.of<DataBase>(context, listen: false)
             .registerUserData(
                 value['idToken'], value['localId'], widget._authData)

@@ -73,7 +73,7 @@ class _TrainingPageState extends State<TrainingPage>
           )
         : Scaffold(
             body: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
               child: CustomScrollView(
                 slivers: [
                   MyAppbar("Choose your Way", "Trainings", false, null),

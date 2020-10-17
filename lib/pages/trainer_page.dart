@@ -78,22 +78,24 @@ class _TrainerPageState extends State<TrainerPage> {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments as List;
-    return Scaffold(
-      key: _scaffoldKey,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Color(0x00000000),
-        elevation: 0,
-      ),
-      body: Builder(
-        builder: (context) => SnapClipPageView(
-          backgroundBuilder: buildBackground,
-          itemBuilder: buildChild,
-          length: data.length,
-          initialIndex: 0,
-        ),
-      ),
-    );
+    return data.isEmpty
+        ? Scaffold(body: Center(child: Text("No trainers are available")))
+        : Scaffold(
+            key: _scaffoldKey,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: Color(0x00000000),
+              elevation: 0,
+            ),
+            body: Builder(
+              builder: (context) => SnapClipPageView(
+                backgroundBuilder: buildBackground,
+                itemBuilder: buildChild,
+                length: data.length,
+                initialIndex: 0,
+              ),
+            ),
+          );
   }
 
   BackgroundWidget buildBackground(_, index) {

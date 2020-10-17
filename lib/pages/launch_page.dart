@@ -1,5 +1,3 @@
-import 'package:shape_of_view/shape/roundrect.dart';
-
 import '../utils/Strings.dart';
 import './welcome_page.dart';
 import 'package:flutter/material.dart';
